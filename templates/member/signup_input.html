@@ -1,0 +1,301 @@
+﻿<!DOCTYPE HTML>
+<html lang="ko">
+
+<head>
+	{% include 'include/head.html' %}
+	<title>회원가입 - 정보입력</title>
+	<link type="text/css" rel="stylesheet" href="/static/css/signup_input.css">
+</head>
+
+<body>
+	{% include 'include/header.html' %}
+
+	<div class="menu">
+		<div class="menu-bg">
+			<div style="width: 20%;float: left;">
+				<p class="signtxt">회원가입</p>
+			</div>
+			<div style="width: 80%;">
+				<p class="sign-num">
+					<label class="menu-txt">1. 약관동의 > </label>
+					<label class="point">2.</label>
+					<label class="point2"> 정보입력</label>
+					<label class="menu-txt"> > 3. 가입완료</label>
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- 정보 입력 폼 -->
+	<div class="div-align">
+		<div class="div-agree">
+			<!-- 정보 입력 -->
+			<div class="align">
+				<input type="text" class="inputValue-btn" id="input_email" name="input" autofocus required placeholder="이메일 아이디" /> 
+				<button class="btn-check" id="btn_id_check" type="button" disabled>중복체크</button>
+			</div>
+			<p class="p-warning" id="warning_email"></p>
+
+			<input type="password" class="inputValue" id="input_pw" name="input" autofocus required placeholder="비밀번호" />
+			<p class="p-warning" id="warning_pw"></p>
+
+			<input type="password" class="inputValue" id="input_pw2" name="input" autofocus required placeholder="비밀번호 확인" />
+			<p class="p-warning" id="warning_pw2"></p>
+
+			<input type="text" class="inputValue" id="input_name" name="input" autofocus required placeholder="이름" />
+			<p class="p-warning" id="warning_name"></p>
+
+			<input type="tel" class="inputValue" id="input_tel" name="input" autofocus required placeholder="핸드폰번호 (ex. 01011111111)" />
+			<p class="p-warning" id="warning_tel"></p>
+
+			<!-- 경고 메시지 -->
+			<p id="p-warning" id="warning"></p>
+
+			<!-- 회원가입 버튼  -->
+			<button id="btn_signup" type="button">회원가입</button>
+		</div>
+	</div>
+</body>
+<script>
+var id_duplication = false;
+var id_email_type = false;
+var pw_type = false;
+var pw_equal = false;
+var tel_type = false;
+
+$("#btn_signup").click(function () {
+	var id = $("#input_email").val().trim();
+	var pw = $("#input_pw").val().trim();
+	var pw2 = $("#input_pw2").val().trim();
+	var name = $("#input_name").val().trim();
+	var tel = $("#input_tel").val().trim();
+
+	if (id == "" || pw == "" || pw2 == "" || name == "" || tel == "" || 
+	 !id_duplication || !id_email_type || !pw_type  || !pw_equal || !tel_type) {
+
+		// 공백, 형식 확인
+		if (tel == "") {
+			$("#warning_tel").css("display", "block");
+			$("#warning_tel").text("핸드폰번호를 입력해주세요.");
+			$("#input_tel").css("margin-bottom", "5px");
+			$("#input_tel").focus();
+		}
+
+		if (name == "") {
+			$("#warning_name").css("display", "block");
+			$("#warning_name").text("이름을 입력해주세요.");
+			$("#input_name").css("margin-bottom", "5px");
+			$("#input_name").focus();
+		} 
+
+		if (pw2 == "") {
+			$("#warning_pw2").css("display", "block");
+			$("#warning_pw2").text("비밀번호를 입력해주세요.");
+			$("#input_pw2").css("margin-bottom", "5px");
+			$("#input_pw2").focus();
+		} else if (!pw_equal) {
+			$("#warning_pw2").css("display", "block");
+			$("#warning_pw2").text("비밀번호: 불일치");
+			$("#input_pw2").css("margin-bottom", "5px");
+		} else {
+			$("#warning_pw2").css("display", "block");
+			$("#warning_pw2").text("비밀번호: 일치");
+			$("#input_pw2").css("margin-bottom", "5px");
+		}
+
+		if (pw == "") {
+			$("#warning_pw").css("display", "block");
+			$("#warning_pw").text("비밀번호를 입력해주세요.");
+			$("#input_pw").css("margin-bottom", "5px");
+			$("#input_pw").focus();
+		} else if (!pw_type) {
+			$("#warning_pw").css("display", "block");
+			$("#warning_pw").text("비밀번호 형식: 부적합");
+			$("#input_pw").css("margin-bottom", "5px");
+		} else {
+			$("#warning_pw").css("display", "block");
+			$("#warning_pw").text("비밀번호 형식: 적합");
+			$("#input_pw").css("margin-bottom", "5px");
+		}
+
+		if (id == "") {
+			$("#warning_email").css("display", "block");
+			$("#warning_email").text("이메일을 입력해주세요.");
+			$("#input_email").css("margin-bottom", "5px");
+			$("#input_email").focus();
+		} else if (!id_email_type) {
+			$("#warning_email").css("display", "block");
+			$("#warning_email").text("이메일 형식: 부적합");
+			$("#input_email").css("margin-bottom", "5px");
+		} else if (!id_duplication) {
+			$("#warning_email").css("display", "block");
+			$("#warning_email").text("이메일 중복을 확인해주세요.");
+			$("#input_email").css("margin-bottom", "5px");
+		} else {
+			$("#warning_email").css("display", "block");
+			$("#warning_email").text("이메일 사용: 적합");
+			$("#warning_email").css("color", "green");
+			$("#input_email").css("margin-bottom", "5px");
+		}
+
+	} else {
+		var regNumber = /[^0-9]/g;
+		tel = tel.replace(regNumber, "");
+
+		var data = { "id": id, "pw": pw, "name": name, "tel": tel };
+		$.ajax({
+			type: "post",
+			url: "{{url_for('member.signup_input_action')}}",
+			datatype: "text",
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			success: function (data) {
+				if (data.result == 2) { 
+					$(".p-warning").css("display", "none");
+					alert("회원가입 되었습니다.");
+					location.href = '/member/login';
+				} else if (data.result == 1) { 
+					$("#warning").text(data.msg);
+					$('#warning').css("display", "block");
+				}
+			}
+		})
+	}
+});
+
+$(document).on("focus", "input[name=input]", function(){ 
+	var num = $("input[name=input]").index(this); 
+
+	var id = $("#input_email").val().trim();
+	var pw = $("#input_pw").val().trim();
+	var pw2 = $("#input_pw2").val().trim();
+	var name = $("#input_name").val().trim();
+	var tel = $("#input_tel").val().trim();
+
+	if (num == 0 && id == "") {
+		$("#warning_email").css("display", "block");
+		$("#warning_email").text("이메일 형식: 부적합 (aaaa@naver.com)");
+		$("#input_email").css("margin-bottom", "5px");
+	} else if (num == 1 && pw == "") {
+		$("#warning_pw").css("display", "block");
+		$("#warning_pw").text("비밀번호 형식: 부적합 (대소문자, 숫자, 특수문자 세가지 조합으로 8자 이상)");
+		$("#input_pw").css("margin-bottom", "5px");
+	} else if (num == 2 && pw2 == "") {
+		$("#warning_pw2").css("display", "block");
+		$("#warning_pw2").text("비밀번호: 불일치");
+		$("#input_pw2").css("margin-bottom", "5px");
+	} else if (num == 3 && name == "") {
+		$("#warning_name").css("display", "block");
+		$("#warning_name").text("이름 형식: 부적합 (한글자 이상)");
+		$("#input_name").css("margin-bottom", "5px");
+	} else if (num == 4 && tel == "") {
+		$("#warning_tel").css("display", "block");
+		$("#warning_tel").text("핸드폰번호 형식: 부적합");
+		$("#input_tel").css("margin-bottom", "5px");
+	} 
+});
+
+$(document).on("propertychange change keyup paste input", "input[name=input]", function(){ 
+	var num = $("input[name=input]").index(this); 
+
+	if (num == 0) {
+		var id = $("#input_email").val().trim();
+		var regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/;
+		if (regEmail.test(id)) {
+			$("#warning_email").text("이메일 중복을 확인해주세요.");
+			$("#btn_id_check").attr("disabled", false);
+			$("#btn_id_check").css("color", "red");
+			$("#btn_id_check").css("border", "1px solid red");
+			id_email_type = true;
+		} else {
+			$("#warning_email").text("이메일 형식: 부적합 (aaaa@naver.com)");
+			$("#warning_email").css("color", "red");
+			$("#btn_id_check").attr("disabled", true);
+			$("#btn_id_check").css("color", "#a09c9c");
+			$("#btn_id_check").css("border", "1px solid #a09c9c");
+			$("#btn_id_check").text("중복체크");
+			id_email_type = false;
+		}
+	} else if (num == 1) {
+		var pw = $("#input_pw").val().trim();
+		var regPw = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,12}$/;
+		if (regPw.test(pw)) {
+			$("#warning_pw").text("비밀번호 형식: 적합");
+			$("#warning_pw").css("color", "green");
+			pw_type = true;
+		} else {
+			$("#warning_pw").text("비밀번호 형식: 부적합 (대소문자, 숫자, 특수문자 세가지 조합으로 8자 이상)");
+			$("#warning_pw").css("color", "red");
+			pw_type = false;
+		}
+	} else if (num == 2) {
+		var pw = $("#input_pw").val().trim();
+		var pw2 = $("#input_pw2").val().trim();
+		if (pw == pw2) {
+			$("#warning_pw2").text("비밀번호: 일치");
+			$("#warning_pw2").css("color", "green");
+			pw_equal = true;
+		} else {
+			$("#warning_pw2").text("비밀번호: 불일치");
+			$("#warning_pw2").css("color", "red");
+			pw_equal = false;
+		}
+	} else if (num == 3) {
+		var name = $("#input_name").val().trim();
+		if (name !== "") {
+			$("#warning_name").text("");
+		} else {
+			$("#warning_name").text("이름을 입력해주세요.");
+		}
+	} else if (num == 4) {
+		var tel = $("#input_tel").val().trim();
+		var regtel = /^01([0|1|6|7|8|9])-?([0-9]{3,4})-?([0-9]{4})$/;
+		if (regtel.test(tel)) {
+			$("#warning_tel").text("핸드폰번호 형식: 적합");
+			$("#warning_tel").css("color", "green");
+			tel_type = true;
+		} else {
+			$("#warning_tel").text("핸드폰번호 형식: 부적합");
+			$("#warning_tel").css("color", "red");
+			tel_type = false;
+		}
+	} 
+});
+
+// 중복체크 버튼
+$("#btn_id_check").click(function () {
+	var id = $("#input_email").val().trim();
+
+	$("#btn_id_check").attr("disabled", true);
+	data = { "id": id }
+
+	$.ajax({
+		type: "post",
+		url: "{{url_for('member.signup_id_check')}}",
+		datatype: "text",
+		contentType: "application/json",
+		data: JSON.stringify(data),
+		success: function (data) {
+			if (data.result == 1) { // 아이디 중복 
+				$("#warning_email").text("아이디가 중복됩니다.");
+				$("#btn_id_check").attr("disabled", false);
+			} else if (data.result == 2) { // 아이디 중복 X
+				$("#warning_email").text("사용가능한 이메일입니다.");
+				$("#warning_email").css("color", "green");
+				$("#btn_id_check").css("color", "green");
+				$("#btn_id_check").css("border", "1px solid green");
+				$("#btn_id_check").text("확인완료");
+				id_duplication = true;
+			}
+		}
+	})
+});
+
+$("#input_tel").focusout(function() {
+	var tel = $("#input_tel").val().trim();
+	var regNumber = /[^0-9]/g;
+	tel = tel.replace(regNumber, "");
+	$("#input_tel").val(tel);
+});
+</script>
+</html>

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE HTML>
+<html lang="ko">
+
+<head>
+	<title>로그인</title>
+	<script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+	<link rel="shortcut icon" href="/static/images/logo.png">
+	<link type="text/css" rel="stylesheet" href="/static/css/login.css">
+</head>
+
+<body style="background:#f9f9fb;">
+	<div class="div-logo" width="350px">
+
+		<div style="margin: 0 auto; width: 350px;">
+			<img class="img-logo" src="/static/images/logo.png" />
+			<p class="p-logo">Everything</p>
+
+			<input id="id" class="inputValue" name="id" autofocus required placeholder="이메일 아이디" /> <br>
+			<input id="password" class="inputValue" name="password" type="password" autofocus required placeholder="비밀번호" /><br>
+
+			<p id="p-warning"></p>
+			<button id="btn_login" type="button">확인</button><br>
+
+			<div>
+				<p style="color:#a8a8aa;">아이디 찾기 | 비밀번호 찾기 |
+					<a href="/member/signup_agree" style="color:#a8a8aa;">회원가입</a>
+				</p>
+			</div>
+
+			<div>
+				<hr>
+			</div>
+
+			<div>
+				<p>SNS아이디로 간편하게 로그인하세요</p>
+			</div>
+
+			<div>
+				<a href="http://www.kakao.com/talk"><img class="img-kakao" src="/static/images/kakao.png" /></a>
+				<a href="http://www.naver.com/"><img class="img-naver" src="/static/images/naver.png" /></a>
+				<a href="https://www.facebook.com/"><img class="img-face" src="/static/images/facebook.png" /></a>
+			</div>
+		</div>
+</body>
+<script>
+// 로그인 
+$("#btn_login").click(function () {
+	var id = $('input[name=id]').val().trim();
+	var pw = $('input[name=password]').val().trim();
+	if (id == "" || pw == "") {
+		$('#p-warning').text('입력칸을 모두 채워주세요.');
+		$('#p-warning').css("display", "block");
+	} else {
+		var data = { "id": id, "pw": pw };
+		$.ajax({
+			type: 'post',
+			url: "{{url_for('member.login_action')}}",
+			datatype: 'text',
+			contentType: "application/json",
+			data: JSON.stringify(data),
+			success: function (data) {
+				if (data.result) { 
+					$('#p-warning').css("display", "none");
+					alert('로그인되었습니다.');
+					location.href = '/';
+					// history.go(-1);
+				} else {
+					$('#p-warning').text('아이디 또는 비밀번호가 일치하지 않습니다.');
+					$('#p-warning').css("display", "block");
+				}
+			}
+		})
+	}
+});
+</script>
+</html>

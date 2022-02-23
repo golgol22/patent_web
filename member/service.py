@@ -1,5 +1,5 @@
 from flask import session
-from vo import Member, db
+from member.vo import Member, db
 
 class Service:
     def join(self, m:Member): # 회원가입
@@ -15,6 +15,9 @@ class Service:
                 return True
 
         return False
+
+    def selectById(self, id):
+       return Member.query.get(id) 
 
     def myInfo(self): # 로그인 한 id로 검색한 객체 반환
         id = session['login_id']

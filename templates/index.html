@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% include 'include/head.html' %}
+    <link type="text/css" rel="stylesheet" href="/static/css/index.css"> 
+    <title>Everything - 특허에 관한 모든 것</title>
+</head>
+<body style="height: 100%; overflow-y: auto; z-index: 999">
+    <div id="wrap">
+        {% include 'include/header.html' %}
+        
+        <div id="contents-main">
+            <div class="contents-container">
+                <div class="contents-title">Best</div>
+                
+                <div class="contents-group">
+                    <% for(var data of product) { %>
+                    <div class="contents-item">
+                        <div class="contents-img">
+                            <img src="<%= data.prd_img %>" alt="">
+                        </div>
+                        <div class="name-kor"><%= data.prd_kor %></div>
+                        <div class="name-eng"><%= data.prd_eng %></div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="contents-container">
+                <div class="contents-title">Contest</div>
+                
+                <div class="contents-group">
+                    <% for(var data of contest) { %>
+                    <div class="contents-item">
+                        <div class="contents-img">
+                            <img src="<%= data.cont_img %>" alt="">
+                        </div>
+                        <div class="name-kor"><%= data.cont_title %></div>
+                        <div class="contest-review"><%= data.cont_review %></div>
+                    </div>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        {% include 'include/footer.html' %}
+    </div>
+</body>
+</html>

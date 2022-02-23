@@ -1,0 +1,85 @@
+
+<div id="headers">
+    <div id="header-top">
+        <div class="sns">
+            <img src="/static/images/icon_facebook.png" alt="">
+            <img src="/static/images/icon_instagram.png" alt="">
+            <img src="/static/images/icon_youtube.png" alt="">
+        </div>
+        
+        <div class="center"></div>
+        
+        <div class="users">
+            {% if not session.flag %}
+                <a href="member/login">로그인</a>
+                <a href="member/signup_agree">회원가입</a>
+            {% else %}
+                <a href="member/logout">로그아웃</a>
+                <a href="member/mypage">마이페이지</a>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div id="header-body">
+       <div id="header-contents">
+            <div class="logo">
+                <img src="/static/images/logo.png" alt="macarontree 이미지 (트리모양))">
+                <a href="/">Everything</a>
+            </div>
+            <hr>
+            <div class="menu-contents">
+                <a class="menu-item" href="/">홈</a>
+                <a class="menu-item" href="/basic">특허검색</a>
+                <a class="menu-item" href="/unique">특허뉴스</a>
+                <a class="menu-item" href="/contest">특허법률사무소</a>
+                <a class="menu-item" href="/cooking">출원서&명세서</a>
+                <a class="menu-item" href="/mind">특허정보찾기</a>
+            </div>
+       </div>
+    </div>
+</div>
+
+<div id="mobile-headers" style="z-index: 1000">
+    <div class="mobile_menu">
+         <button type="button" class="menu-toggle" onclick="toggleMenu()">
+             <span class="sr-only"></span>
+         </button>
+     </div>
+     <div class="menu-collapse" id="sidebar">
+        <div class="menu-header">
+         <button type="button" class="menu-toggle" onclick="toggleMenu()">
+             <span class="sr-only"></span>
+         </button>
+        </div>
+        <div class="menu-contents">
+            <section class="menu-profile">
+                <div class="menu-mypage">
+                    <img src="/static/images/icon_user.png">
+                </div>
+                <div class="menu-user">
+                    {% if not session.flag %}
+                        <a class="menu-login" href="member/login">로그인</a>
+                        <a class="menu-register" href="member/signup_agree">회원가입</a>
+                    {% else %}
+                        <a class="menu-login" href="member/logout">로그아웃</a>
+                        <a class="menu-register" href="member/mypage">마이페이지</a>
+                    {% endif %}
+                </div>
+            </section>
+            <div class="menu-items">
+                <a class="menu-item" href="/">홈</a>
+                <a class="menu-item" href="/basic">특허검색</a>
+                <a class="menu-item" href="/unique">특허뉴스</a>
+                <a class="menu-item" href="/contest">특허법률사무소</a>
+                <a class="menu-item" href="/cooking">출원서&명세서</a>
+                <a class="menu-item" href="/mind">특허정보찾기</a>
+            </div>
+        </div>
+     </div>
+     <button type="button" class="menu-dim" onclick="toggleMenu()"></button>
+      
+    <div class="logo">
+        <img src="/static/images/logo.png" alt="">
+        <a href="/">Everything</a>
+    </div>
+</div>
