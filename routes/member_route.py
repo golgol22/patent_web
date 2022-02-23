@@ -1,4 +1,3 @@
-import re
 from flask import request, render_template, redirect, Blueprint, session, json, jsonify
 from member.vo import Member
 from member.service import Service
