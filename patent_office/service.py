@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
-from vo import Office
+from patent_office.vo import Office
 
 class Service:
         
@@ -9,28 +9,29 @@ class Service:
         page = 1
         while True:
             url = 'https://blsn.co.kr/companies/firm/list/?'
+            sectors = ''
             if selected_sectors != '전체': 
-                if selected_sectors == '생활(A)':
-                    selected_sectors = 'pt_a'
-                if selected_sectors == '운송(B)':
-                    selected_sectors = 'pt_b'
-                if selected_sectors == '화학(C)':
-                    selected_sectors = 'pt_c'
-                if selected_sectors == '섬유(D)':
-                    selected_sectors = 'pt_d'
-                if selected_sectors == '구조(E)':
-                    selected_sectors = 'pt_e'
-                if selected_sectors == '기계(F)':
-                    selected_sectors = 'pt_f'
-                if selected_sectors == '물리(G)':
-                    selected_sectors = 'pt_g'
-                if selected_sectors == '전기(H)':
-                    selected_sectors = 'pt_h'
+                if selected_sectors == '생활A':
+                    sectors = 'pt_a'
+                if selected_sectors == '운송B':
+                    sectors = 'pt_b'
+                if selected_sectors == '화학C':
+                    sectors = 'pt_c'
+                if selected_sectors == '섬유D':
+                    sectors = 'pt_d'
+                if selected_sectors == '구조E':
+                    sectors = 'pt_e'
+                if selected_sectors == '기계F':
+                    sectors = 'pt_f'
+                if selected_sectors == '물리G':
+                    sectors = 'pt_g'
+                if selected_sectors == '전기H':
+                    sectors = 'pt_h'
                 if selected_sectors == '상표':
-                    selected_sectors = 'dn%2Ctm'
+                    sectors = 'dn%2Ctm'
                 if selected_sectors == '디자인':
-                    selected_sectors = 'dn'
-                url += 'selected_sectors' + selected_sectors + '&'
+                    sectors = 'dn'
+                url += 'selected_sectors=' + sectors + '&'
             url += 'page=' + str(page)
             
             try: 

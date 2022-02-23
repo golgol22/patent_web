@@ -7,8 +7,8 @@ class Office:
         
     def __str__(self):
         s = ''
-        s += '사무소 이름: '+self.office_name + '\n'
-        s += '출원: ' + self.office_apply + '\n'
-        s += '심판: ' + self.office_referee + '\n'
-        s += '평점: ' + self.office_score 
+        s += self.office_name + '|'
+        s += self.office_apply + '|'
+        s += self.office_referee + '|'
+        s += self.office_score 
         return s

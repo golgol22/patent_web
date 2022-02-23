@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% include 'include/head.html' %}
+    <link type="text/css" rel="stylesheet" href="/static/css/office.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>특허 법률 사무소</title>
+</head>
+<body>
+    <div id="wrap">
+        {% include 'include/header.html' %}
+
+        <div class="contents-main">
+        	<div class="contents-contrainer">
+        		<div class="contents-header">
+		            <div class="contents-titles">
+		                <div class="title">특허사무소</div>
+					</div>
+                    <div class="search-box">
+						<input type="text" class="search-item" placeholder="특허사무소 검색"/>
+					</div>
+				</div>
+				<div class="contents-sectors">
+					<button class="contents-sector-item on">전체</button>
+                    <button class="contents-sector-item">생활(A)</button>
+                    <button class="contents-sector-item">운송(B)</button>
+                    <button class="contents-sector-item">화학(C)</button>
+                    <button class="contents-sector-item">섬유(D)</button>
+                    <button class="contents-sector-item">구조(E)</button>
+                    <button class="contents-sector-item">기계(F)</button>
+                    <button class="contents-sector-item">물리(G)</button>
+                    <button class="contents-sector-item">전기(H)</button>
+                    <button class="contents-sector-item">상표</button>
+                    <button class="contents-sector-item">디자인</button>
+				</div>
+				
+                <div class="search-result">
+                    <div id="table">
+                        <div class="col">사무소</div>
+                        <div class="col">출원수</div>
+                        <div class="col">심판수</div>
+                        <div class="col">평점</div>
+                        <div class="col">찜하기</div>
+                        {% for o in res %}
+                            <div class="text" style="grid-column: 1/2;">{{o.office_name}}</div>
+                            <div class="text" style="grid-column: 2/3;">{{o.office_apply}}</div>
+                            <div class="text" style="grid-column: 3/4;">{{o.office_referee}}</div>
+                            <div class="text" style="grid-column: 4/5;">{{o.office_score}}</div>
+                            <div class="" style="grid-column: 5/6;"><button class="fav-office" onclick="fav_office_add('{{o}}');"><i class="fa fa-heart"></i> 찜하기</button></div>
+                        {% endfor %}
+                    </div>
+                </div> 
+
+            </div>
+        </div>
+
+        {% include 'include/footer.html' %}
+    </div>
+</body>
+<script>
+$(document).on("click", ".contents-sector-item", function(){
+    var search = $(this).text().replace('(', '').replace(')', '').trim()
+    var data = { "search": search }
+    $(this).parent().children('button').removeClass('on');  
+    $(this).addClass('on');
+    $.ajax ({
+        type: 'post',
+        url: "{{url_for('patent.office_search')}}",
+        datatype: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(data), 
+        success: function(data) { 
+            var data_result = JSON.parse(data.result);
+            $('.search-result').html('')
+            $('.search-result').append(drawingSearchList(data_result));
+        }
+    })
+})
+
+function drawingSearchList(data_result) {
+	var addTag = "";
+	addTag += "<div id='table'><div class='col'>사무소</div><div class='col'>출원수</div><div class='col'>심판수</div><div class='col'>평점</div><div class='col'>찜하기</div>"
+	$.each(data_result, function(index, data){
+        var officeData = data.split('|')
+		addTag += "<div class='text' style='grid-column: 1/2;'>" + officeData[0] + "</div>"
+   			+ "<div class='text' style='grid-column: 2/3;'>" + officeData[1] + "</div>"
+   			+ "<div class='text' style='grid-column: 3/4;'>" + officeData[2] + "</div>"
+   			+ "<div class='text' style='grid-column: 4/5;'>" + officeData[3] + "</div>"
+   			+ "<div class='' style='grid-column: 5/6;'><button class='fav-office' onclick='fav_office_add(" + officeData + ");'><i class='fa fa-heart'></i> 찜하기</button></div>"
+    })
+    
+    addTag += "</div>"
+    return addTag;
+}
+</script>
+</html>

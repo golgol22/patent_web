@@ -16,7 +16,7 @@ app.config.from_object(config)
 
 # 블루 프린트 등록
 app.register_blueprint(mr.bp)
-# app.register_blueprint(pr.bp)
+app.register_blueprint(pr.bp)
 
 # ORM 연동
 db.init_app(app)

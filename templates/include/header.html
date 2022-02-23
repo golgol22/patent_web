@@ -11,11 +11,11 @@
         
         <div class="users">
             {% if not session.flag %}
-                <a href="member/login">로그인</a>
-                <a href="member/signup_agree">회원가입</a>
+                <a href="/member/login">로그인</a>
+                <a href="/member/signup_agree">회원가입</a>
             {% else %}
-                <a href="member/logout">로그아웃</a>
-                <a href="member/mypage">마이페이지</a>
+                <a href="/member/logout">로그아웃</a>
+                <a href="/member/mypage">마이페이지</a>
             {% endif %}
         </div>
     </div>
@@ -29,11 +29,11 @@
             <hr>
             <div class="menu-contents">
                 <a class="menu-item" href="/">홈</a>
-                <a class="menu-item" href="/patent_search">특허검색</a>
-                <a class="menu-item" href="/patent_news">특허뉴스</a>
-                <a class="menu-item" href="/patent_office">특허법률사무소</a>
-                <a class="menu-item" href="/patent_doc">출원서&명세서</a>
-                <a class="menu-item" href="/patent_info">특허정보찾기</a>
+                <a class="menu-item" href="/patent/search">특허검색</a>
+                <a class="menu-item" href="/patent/news">특허뉴스</a>
+                <a class="menu-item" href="/patent/office">특허사무소</a>
+                <a class="menu-item" href="/patent/doc">출원서&명세서</a>
+                <a class="menu-item" href="/patent/info">특허정보찾기</a>
             </div>
        </div>
     </div>
@@ -58,21 +58,21 @@
                 </div>
                 <div class="menu-user">
                     {% if not session.flag %}
-                        <a class="menu-login" href="member/login">로그인</a>
-                        <a class="menu-register" href="member/signup_agree">회원가입</a>
+                        <a class="menu-login" href="/member/login">로그인</a>
+                        <a class="menu-register" href="/member/signup_agree">회원가입</a>
                     {% else %}
-                        <a class="menu-login" href="member/logout">로그아웃</a>
-                        <a class="menu-register" href="member/mypage">마이페이지</a>
+                        <a class="menu-login" href="/member/logout">로그아웃</a>
+                        <a class="menu-register" href="/member/mypage">마이페이지</a>
                     {% endif %}
                 </div>
             </section>
             <div class="menu-items">
                 <a class="menu-item" href="/">홈</a>
-                <a class="menu-item" href="/patent_search">특허검색</a>
-                <a class="menu-item" href="/patent_news">특허뉴스</a>
-                <a class="menu-item" href="/patent_office">특허법률사무소</a>
-                <a class="menu-item" href="/patent_doc">출원서&명세서</a>
-                <a class="menu-item" href="/patent_info">특허정보찾기</a>
+                <a class="menu-item" href="/patent/search">특허검색</a>
+                <a class="menu-item" href="/patent/news">특허뉴스</a>
+                <a class="menu-item" href="/patent/office">특허사무소</a>
+                <a class="menu-item" href="/patent/docu">출원서&명세서</a>
+                <a class="menu-item" href="/patent/info">특허정보찾기</a>
             </div>
         </div>
      </div>
