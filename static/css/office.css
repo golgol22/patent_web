@@ -129,7 +129,6 @@
     font-weight: bolder; 
     vertical-align: middle; 
     font-size: 13pt;
-    /* padding-top: 13px; */
 }
 
 #table > div {
@@ -148,4 +147,9 @@
     background: #fff;
     border: 1px solid #bbb;
     border-radius: 3px;
+}
+
+.fav-add {
+    color: #de3e5d;
+    border: 1px solid #de3e5d;
 }

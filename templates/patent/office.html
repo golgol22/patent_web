@@ -4,7 +4,7 @@
     {% include 'include/head.html' %}
     <link type="text/css" rel="stylesheet" href="/static/css/office.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>특허 법률 사무소</title>
+    <title>특허 사무소</title>
 </head>
 <body>
     <div id="wrap">
@@ -12,6 +12,7 @@
 
         <div class="contents-main">
         	<div class="contents-contrainer">
+
         		<div class="contents-header">
 		            <div class="contents-titles">
 		                <div class="title">특허사무소</div>
@@ -20,6 +21,7 @@
 						<input type="text" class="search-item" placeholder="특허사무소 검색"/>
 					</div>
 				</div>
+
 				<div class="contents-sectors">
 					<button class="contents-sector-item on">전체</button>
                     <button class="contents-sector-item">생활(A)</button>
@@ -41,12 +43,12 @@
                         <div class="col">심판수</div>
                         <div class="col">평점</div>
                         <div class="col">찜하기</div>
-                        {% for o in res %}
+                        {% for index, o in res %}
                             <div class="text" style="grid-column: 1/2;">{{o.office_name}}</div>
                             <div class="text" style="grid-column: 2/3;">{{o.office_apply}}</div>
                             <div class="text" style="grid-column: 3/4;">{{o.office_referee}}</div>
                             <div class="text" style="grid-column: 4/5;">{{o.office_score}}</div>
-                            <div class="" style="grid-column: 5/6;"><button class="fav-office" onclick="fav_office_add('{{o}}');"><i class="fa fa-heart"></i> 찜하기</button></div>
+                            <div class="" style="grid-column: 5/6;"><button class="fav-office" onclick="fav_office_add({{index}}, '{{o}}');"><i class="fa fa-heart"></i> 찜하기</button></div>
                         {% endfor %}
                     </div>
                 </div> 
@@ -72,7 +74,7 @@ $(document).on("click", ".contents-sector-item", function(){
         success: function(data) { 
             var data_result = JSON.parse(data.result);
             $('.search-result').html('')
-            $('.search-result').append(drawingSearchList(data_result));
+            $('.search-result').append(drawingSearchList(data_result))
         }
     })
 })
@@ -86,11 +88,17 @@ function drawingSearchList(data_result) {
    			+ "<div class='text' style='grid-column: 2/3;'>" + officeData[1] + "</div>"
    			+ "<div class='text' style='grid-column: 3/4;'>" + officeData[2] + "</div>"
    			+ "<div class='text' style='grid-column: 4/5;'>" + officeData[3] + "</div>"
-   			+ "<div class='' style='grid-column: 5/6;'><button class='fav-office' onclick='fav_office_add(" + officeData + ");'><i class='fa fa-heart'></i> 찜하기</button></div>"
+   			+ "<div class='' style='grid-column: 5/6;'><button class='fav-office' onclick='fav_office_add(" + index + ", " + data + ");'><i class='fa fa-heart'></i> 찜하기</button></div>"
     })
     
     addTag += "</div>"
     return addTag;
+}
+
+function fav_office_add(index, data) {
+    console.log(index)
+    console.log(data)
+    $('.fav-office').eq(index).addClass('fav-add')
 }
 </script>
 </html>
