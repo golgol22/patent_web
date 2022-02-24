@@ -10,14 +10,165 @@
     <div id="wrap">
         {% include 'include/header.html' %}
 
-        <div>
+        <div class="mypage">
+            <!-- 마이페이지 로고 -->
+            <div class="logo-mypage"> 마이페이지 </div>
+            <div class ="align">
+                <!-- 왼쪽 메뉴 -->
+                <div class="myPageLeftMenu fL">
+                    <div class="myPageSubMenu">
+                        <div class="fav_add on">
+                            관심 분야 등록
+                        </div>
+                        <div class="fav-patent">
+                            찜한 특허
+                        </div>
+                        <div class="fav-office">
+                            찜한 사무소
+                        </div>
+                        <div class="fav_news">
+                            찜한 뉴스
+                        </div>
+                        <div class="fav_docu">
+                            찜한 문서
+                        </div>
+                        <div class="fav_word">
+                            찜한 단어
+                        </div>
+                        <div class="cal">
+                            출원 일정 관리
+                        </div>
+                        <div class="user">
+                            회원 정보 수정
+                        </div>
+                    </div>
+                </div>
+                <br>
+                <div class="mobilemenu">
+                    <div class="fav_add on">
+                        관심 분야 등록
+                    </div>
+                    <div class="fav-patent">
+                        찜한 특허
+                    </div>
+                    <div class="fav-office">
+                        찜한 사무소
+                    </div>
+                    <div class="fav_news">
+                        찜한 뉴스
+                    </div>
+                    <div class="fav_docu">
+                        찜한 문서
+                    </div>
+                    <div class="fav_word">
+                        찜한 단어
+                    </div>
+                    <div class="cal">
+                        출원 일정 관리
+                    </div>
+                    <div class="user">
+                        회원 정보 수정
+                    </div>
+                </div>
+                <br>
 
+                <!-- 오른 쪽 메뉴 -->
+                <div class="mypage-content">
+                    <div class="div-sub">
+                        <div class="page-name">관심 분야 등록</div>
+                        <div class="page-location"><img src="/static/images/home.png" class="mypage-home-image"/> <div class="info-text">메뉴  >  마이페이지  >  관심 분야 등록</div></div>
+                        <div class="line"></div>
+                    </div>
+
+                    <div class="mypage-content-item">
+                        <!-- 관심 분야 등록  -->
+                        <div class="content fav-add-content visible">
+
+                        </div>
+
+                        <div class="content fav-patent-content">
+
+                        </div>
+
+                        <div class="content fav-office-content">
+
+                        </div>
+
+                        <div class="content fav-news-content">
+
+                        </div>
+
+                        <div class="content fav-docu-content">
+
+                        </div>
+
+                        <div class="content fav-word-content">
+
+                        </div>
+
+                        <div class="content fav-cal-content">
+
+                        </div>
+                        <!-- 회원 정보 수정  -->
+                        <div class="content user-content">
+                            <div class="div-align">
+                                <div class="user-update-text">ID</div><input type="text" class="inputValue" name="id" value="{{m.id}}" readonly/><br>
+                                <div class="user-update-text">PASSWORD</div><input type="password" class="inputValue" name="pw" value="" placeholder="비밀번호"/> <br>
+                                <div class="user-update-text">NAME</div><input type="text" class="inputValue" name="username" value="{{m.name}}"/> <br>
+                                <div class="user-update-text">TEL</div><input type="tel" class="inputValue" name="tel" value="{{m.tel}}"/> <br>
+                                <p id="p-warning">* 아이디는 수정할 수 없습니다.</p>
+                                <button id="btn_update" type="button">정보 수정</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
         {% include 'include/footer.html' %}
     </div>
 </body>
 <script>
+// 메뉴 선택
+$('.myPageSubMenu div').click(function(){
+    var menu = $(this).text()
+    var num = $(this).index()
+    $(this).parent().children('div').removeClass('on')
+    $(this).addClass('on');
+    $('.page-name').text(menu)
+    $('.info-text').text('메뉴  >  마이페이지  >  ' + menu)
+    $('.content').parent().children('.content').removeClass('visible')
+    $('.content').eq(num).addClass('visible')
+});
 
+//개인 정보 수정 
+$('#btn_update').click(function () {
+    var id = $('input[name=id]').val().trim();
+    var pw = $('input[name=pw]').val().trim();
+    var name = $('input[name=username]').val().trim();
+    var tel = $('input[name=tel]').val().trim();
+
+    if (id == "" || pw == "" || name == "" || tel == "") {
+        $('#p-warning').text('입력칸을 모두 채워주세요.');
+        $('#p-warning').css("display", "block");
+    } else {
+        // 한 번에 중복 클릭 방지
+        $("#btn_update").attr("disabled", true);
+        var data = { "id": id, "pw": pw, "name": name, "tel": tel };
+        // 개인 정보 수정 데이터 전송
+        $.ajax({
+            type: 'post',
+            url: "{{url_for('member.user_info_update')}}",
+            datatype: 'text',
+            contentType: "application/json",
+            data: JSON.stringify(data), 
+            success: function (data) {
+                if (data.result == 1) {
+                    alert('회원 정보가 수정되었습니다.');
+                }
+            }
+        })
+    }
+});
 </script>
 </html>

@@ -23,9 +23,11 @@ class Service:
         id = session['login_id']
         return Member.query.get(id)
 
-    def editMyInfo(self, pwd:str): # 새 pwd받아서 현재 로그인 중인 id로 검색하여 수정
+    def editMyInfo(self, pwd:str, name:str, tel:str): # 새 pwd받아서 현재 로그인 중인 id로 검색하여 수정
         mem = self.myInfo()
         mem.pwd = pwd   # 수정할 객체의 멤버변수를 수정하면 테이블 컬럼값도 수정됨
+        mem.name = name
+        mem.tel = tel
         db.session.commit() # 쓰기 완료
 
     def logout(self): # session에서 id 삭제 및 flag =False로 변환

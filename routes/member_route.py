@@ -52,6 +52,20 @@ def logout():
     service.logout()
     return render_template('index.html')
 
+@bp.route('/mypage')
+def mypage():
+    m:Member = service.myInfo()
+    return render_template('member/mypage.html', m=m)
+
+@bp.route('/user_info_update', methods=['POST'])
+def user_info_update():
+    data = json.loads(request.data)
+    pwd =  data.get('pw')
+    name =  data.get('name')
+    tel =  data.get('tel')
+    m:Member = service.editMyInfo(pwd, name, tel)
+    return jsonify(result=1)
+
 @bp.route('/out')
 def out():
     service.out()
