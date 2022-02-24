@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    {% include 'include/head.html' %}
+    <link type="text/css" rel="stylesheet" href="/static/css/news.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <title>특허 뉴스</title>
+</head>
+<body>
+    <div id="wrap">
+        {% include 'include/header.html' %}
+
+        <div class="contents-main">
+        	<div class="contents-contrainer">
+
+        		<div class="contents-header">
+		            <div class="contents-titles">
+		                <div class="title">특허 뉴스</div>
+					</div>
+                    <div class="search-box">
+						<input type="text" class="search-item" placeholder="특허 뉴스 검색"/>
+					</div>
+				</div>
+
+				<div class="contents-sectors">
+					<button class="contents-sector-item on">특허</button>
+                    <button class="contents-sector-item">상표</button>
+                    <button class="contents-sector-item">디자인</button>
+                    <button class="contents-sector-item">사이언스</button>
+                    <button class="contents-sector-item">종합</button>
+                    <button class="contents-sector-item">특허&CEO</button>
+                    <button class="contents-sector-item">TV 특허뉴스</button>
+                    <button class="contents-sector-item">특허Q&A</button>
+                    <button class="contents-sector-item">이슈</button>
+                    <button class="contents-sector-item">스페셜 기획</button>
+				</div>
+				
+                <div class="search-result-all">
+                    <div class="search-result-content">
+                        {% for index, n in news %}
+                        <div class="search-result-one" onclick="moveUrl({{n.news_url}})">
+                            <img src="{{n.news_img_url}}" class="search-result-img" alt="기사타이틀이미지">
+                            <div class="search-result-right-align">
+                                <div class="search-result-title">{{n.news_title}}</div>
+                                <div class="search-result-summary">{{n.news_content}}</div>
+                                <div class="search-result-etc1">
+                                    <div class="search-result-reporter">{{n.news_reporter}}</div>
+                                    <div class="search-result-date">{{n.news_date}}</div>
+                                </div>
+                                <div class="search-result-fav-button">
+                                    <button class="fav-news" onclick="fav_news_add({{index}}, {{n}});"><i class="fa fa-heart"></i> 찜하기</button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div> 
+
+            </div>
+        </div>
+        {% include 'include/footer.html' %}
+    </div>
+</body>
+<script>
+$(document).on("click", ".contents-sector-item", function(){
+    var search = $(this).text().trim()
+    var data = { "search": search }
+    $(this).parent().children('button').removeClass('on');  
+    $(this).addClass('on');
+    $.ajax ({
+        type: 'post',
+        url: "{{url_for('patent.news_search')}}",
+        datatype: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(data), 
+        success: function(data) { 
+            var data_result = JSON.parse(data.result);
+            $('.search-result-content').html('')
+            $('.search-result-content').append(drawingSearchList(data_result))
+        }
+    })
+})
+
+function drawingSearchList(data_result) {
+	var addTag = "";
+	$.each(data_result, function(index, data){
+        var newsData = data.split('|')
+		addTag += "<div class='search-result-one' onclick='moveUrl(" + newsData[5] + ")'>"
+   			+ "<img src='" + newsData[0] + "' class='search-result-img' alt='기사타이틀이미지'>"
+            + "<div class='search-result-right-align'>"
+   			+ "<div class='search-result-title'>" + newsData[1] + "</div>"
+            + "<div class='search-result-summary'>" + newsData[2] + "</div>"
+            + "<div class='search-result-etc1'>"
+            + "<div class='search-result-reporter'>" + newsData[3] + "</div>"
+            + "<div class='search-result-date'>" + newsData[4] + "</div>"
+            + "</div>"
+            + "<div class='search-result-fav-button'>"
+            + "<button class='fav-news' onclick='fav_news_add(" + index + ", " + data + ");'><i class='fa fa-heart'></i> 찜하기</button>"
+            + "</div></div></div>"
+    })
+    return addTag;
+}
+
+function moveUrl(url) {
+    location.href = url;
+}
+
+function fav_news_add(index, data) {
+    console.log(index)
+    console.log(data)
+    $('.fav-news').eq(index).addClass('fav-add')
+}
+</script>
+</html>

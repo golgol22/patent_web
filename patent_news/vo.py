@@ -7,3 +7,12 @@ class News:
         self.news_date = news_date
         self.news_url = news_url
         
+    def __str__(self):
+        s = ''
+        s += self.news_img_url + '|'
+        s += self.news_title + '|'
+        s += self.news_content + '|'
+        s += self.news_reporter + '|'
+        s += self.news_date + '|'
+        s += self.news_url 
+        return s

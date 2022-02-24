@@ -1,6 +1,6 @@
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
-from vo import News
+from patent_news.vo import News
 
 class Service:
     
