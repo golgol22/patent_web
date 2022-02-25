@@ -1,10 +1,30 @@
+from flask import session
 import requests
 from bs4 import BeautifulSoup
 from member.vo import db
-from patent_search.vo import WordSearch, Keyword
+from patent_search.vo import WordSearch, Keyword, Field
 from konlpy.tag import Okt
 from collections import Counter
 
+class DBService: # field 테이블에 저장, 검색
+    def add(self, f_name):
+        user = session['login_id']
+        f = Field(user=user, field_name=f_name)
+        db.session.add(f)
+        db.session.commit()
+    
+    def getById(self):
+        res = []
+        user = session['login_id']
+        return Field.query.get(user)
+    
+    def edit(self, f_name):
+        user = session['login_id']
+        f = self.getById()
+        f.field_name = f_name
+        db.session.commit()
+        
+    
 class SearchService:
     def __init__(self):
         self.key = 'ooRP9Oq6WkfYDhiOcE/YjBxb91I5spT1hpEJPl01lMQ='
@@ -231,7 +251,7 @@ class SearchService:
         return tags
         
 
-class Service: # 데이터 DB에 저장
+class Service: # 키워드 데이터 DB에 저장
     def add(self, yk:Keyword):
         db.session.add(yk)
         db.session.commit()

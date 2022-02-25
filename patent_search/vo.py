@@ -1,5 +1,10 @@
 from member.vo import db
 
+class Field(db.Model):
+    # num = db.Column(db.Integer, primary_key=True)  
+    user = db.Column(db.String(50), db.ForeignKey('member.id', ondelete='CASCADE'), primary_key=True)
+    field_name = db.Column(db.String(20), nullable=False)
+
 class WordSearch:
     
     def __init__(self, indexNo, registerStatus, inventionTitle, ipcNumber, registerNumber, registerDate, applicationNumber, applicationDate, 

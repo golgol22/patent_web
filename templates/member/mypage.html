@@ -88,6 +88,24 @@
                                     관심 분야를 등록하시면 관심 분야에 해당하는 <br> 세부적인특허 분석 내용을 홈 메뉴에서 보실 수 있습니다.
                                 </div>
                             </div>
+
+                            <select class='field'>
+                                <option value='' selected>-- 선택 --</option>
+                                <option value='생활(A)'>생활(A)</option>
+                                <option value='운송(B)'>운송(B)</option>
+                                <option value='화학(C)'>화학(C)</option>
+                                <option value='섬유(D)'>섬유(D)</option>
+                                <option value='구조(E)'>구조(E)</option>
+                                <option value='기계(F)'>기계(F)</option>
+                                <option value='물리(G)'>물리(G)</option>
+                                <option value='전기(H)'>전기(H)</option>
+                            </select>
+                            <button class='field-reg-btn'>설정</button>
+                            {% if f != None %}
+                                <div class='field-setting-text'>{{f.field_name}}로 관심분야가 설정되었습니다.</div>
+                            {% else %}
+                                <div class='field-setting-text'>관심분야가 설정되어있지 않습니다.</div>
+                            {% endif %}
                         </div>
 
                         <div class="content fav-patent-content">
@@ -169,6 +187,29 @@ $('.myPageSubMenu div').click(function(){
     $('.content').parent().children('.content').removeClass('visible')
     $('.content').eq(num).addClass('visible')
 });
+
+// 관심분야 등록
+$('.field-reg-btn').click(function () {
+    var selected = $(".field option:selected").val()
+    if (selected == '--선택--') {
+        alert('다시 선택해주세요')
+    } else {
+        // DB에 저장
+        var data = { "data": selected }
+        $.ajax({
+            type: 'post',
+            url: "{{url_for('member.user_fav_field')}}",
+            datatype: 'text',
+            contentType: "application/json",
+            data: JSON.stringify(data), 
+            success: function (data) {
+                if (data.result == 1) {
+                    $('.field-setting-text').text(selected + '로 관심분야가 설정되었습니다.')
+                }
+            }
+        })
+    }
+}) 
 
 //개인 정보 수정 
 $('#btn_update').click(function () {

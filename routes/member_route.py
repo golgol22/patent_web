@@ -9,10 +9,13 @@ from patent_news.vo import News
 from patent_news.service import Service as news_service
 from patent_news.service import DBService as news_DB_service
 
+from patent_search.service import DBService as field_DB_service
+
 service = Service() # Member
 
 office_DB_service = office_DB_service()
 news_DB_service = news_DB_service()
+field_DB_service = field_DB_service()
 
 
 bp = Blueprint('member', __name__, url_prefix='/member')
@@ -66,10 +69,22 @@ def logout():
 
 @bp.route('/mypage')
 def mypage():
-    m:Member = service.myInfo()
+    f = field_DB_service.getById()
     res_office = office_DB_service.getById()
     res_news = news_DB_service.getById()
-    return render_template('member/mypage.html', m=m, res_office=res_office, res_news=res_news)
+    m:Member = service.myInfo()
+    return render_template('member/mypage.html', f=f, res_office=res_office, res_news=res_news, m=m)
+
+@bp.route('/user_fav_field', methods=['POST'])
+def user_fav_field():
+    data = json.loads(request.data)
+    f_name =  data.get('data')
+    f = field_DB_service.getById()
+    if f == None: 
+        field_DB_service.add(f_name)
+    else:
+        field_DB_service.edit(f_name)
+    return jsonify(result=1)
 
 @bp.route('/user_info_update', methods=['POST'])
 def user_info_update():
