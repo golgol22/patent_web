@@ -1,8 +1,20 @@
 from flask import request, render_template, redirect, Blueprint, session, json, jsonify
 from member.vo import Member
 from member.service import Service
+from patent_office.vo import Office
+from patent_office.service import Service as office_service
+from patent_office.service import DBService as office_DB_service
 
-service = Service()
+from patent_news.vo import News
+from patent_news.service import Service as news_service
+from patent_news.service import DBService as news_DB_service
+
+service = Service() # Member
+
+office_DB_service = office_DB_service()
+news_DB_service = news_DB_service()
+
+
 bp = Blueprint('member', __name__, url_prefix='/member')
 
 @bp.route('/signup_agree')
@@ -55,7 +67,9 @@ def logout():
 @bp.route('/mypage')
 def mypage():
     m:Member = service.myInfo()
-    return render_template('member/mypage.html', m=m)
+    res_office = office_DB_service.getById()
+    res_news = news_DB_service.getById()
+    return render_template('member/mypage.html', m=m, res_office=res_office, res_news=res_news)
 
 @bp.route('/user_info_update', methods=['POST'])
 def user_info_update():

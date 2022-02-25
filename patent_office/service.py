@@ -1,6 +1,9 @@
+from flask import session
 from bs4 import BeautifulSoup
 from urllib.request import Request, urlopen
 from patent_office.vo import Office
+from member.vo import db
+from patent_office.vo import Office, OfficeDB
 
 class Service:
         
@@ -62,7 +65,16 @@ class Service:
                 break
             
         return res
-        
-if __name__ == "__main__": 
-    s = Service()
-    print(s.getPatentOffice('전체'))
+ 
+
+class DBService: # 데이터 OfficeDB에 저장
+    def add(self, o:Office):
+        id = session['login_id']
+        odb = OfficeDB(user=id, office_name=o.office_name, office_apply=o.office_apply, 
+                     office_referee=o.office_referee, office_score=o.office_score)
+        db.session.add(odb)
+        db.session.commit()
+    
+    def getById(self):
+        user = session['login_id']
+        return OfficeDB.query.filter(OfficeDB.user==user).all()

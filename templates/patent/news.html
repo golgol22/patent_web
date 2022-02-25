@@ -38,8 +38,8 @@
                 <div class="search-result-all">
                     <div class="search-result-content">
                         {% for index, n in news %}
-                        <div class="search-result-one" onclick="moveUrl({{n.news_url}})">
-                            <img src="{{n.news_img_url}}" class="search-result-img" alt="기사타이틀이미지">
+                        <div class="search-result-one">
+                            <img src="{{n.news_img_url}}" class="search-result-img" alt="기사타이틀이미지" onclick="moveUrl('{{n.news_url}}')">
                             <div class="search-result-right-align">
                                 <div class="search-result-title">{{n.news_title}}</div>
                                 <div class="search-result-summary">{{n.news_content}}</div>
@@ -48,7 +48,7 @@
                                     <div class="search-result-date">{{n.news_date}}</div>
                                 </div>
                                 <div class="search-result-fav-button">
-                                    <button class="fav-news" onclick="fav_news_add({{index}}, {{n}});"><i class="fa fa-heart"></i> 찜하기</button>
+                                    <button class="fav-news" onclick="fav_news_add({{index}}, '{{n}}');"><i class="fa fa-heart"> 찜하기</i></button>
                                 </div>
                             </div>
                         </div>
@@ -85,8 +85,8 @@ function drawingSearchList(data_result) {
 	var addTag = "";
 	$.each(data_result, function(index, data){
         var newsData = data.split('|')
-		addTag += "<div class='search-result-one' onclick='moveUrl(" + newsData[5] + ")'>"
-   			+ "<img src='" + newsData[0] + "' class='search-result-img' alt='기사타이틀이미지'>"
+		addTag += "<div class='search-result-one'>"
+   			+ "<img src=\'" + newsData[0] + "\' class='search-result-img' alt='기사타이틀이미지' onclick=\"moveUrl('" + newsData[5] + "\')\">"
             + "<div class='search-result-right-align'>"
    			+ "<div class='search-result-title'>" + newsData[1] + "</div>"
             + "<div class='search-result-summary'>" + newsData[2] + "</div>"
@@ -95,7 +95,7 @@ function drawingSearchList(data_result) {
             + "<div class='search-result-date'>" + newsData[4] + "</div>"
             + "</div>"
             + "<div class='search-result-fav-button'>"
-            + "<button class='fav-news' onclick='fav_news_add(" + index + ", " + data + ");'><i class='fa fa-heart'></i> 찜하기</button>"
+            + "<button class='fav-news' onclick=\"fav_news_add(" + index + ", '" + String(data) + "');\"><i class='fa fa-heart'> 찜하기</i></button>"
             + "</div></div></div>"
     })
     return addTag;
@@ -105,10 +105,20 @@ function moveUrl(url) {
     location.href = url;
 }
 
-function fav_news_add(index, data) {
-    console.log(index)
-    console.log(data)
-    $('.fav-news').eq(index).addClass('fav-add')
+function fav_news_add(index, datastr) {
+    var data = { "data": datastr }
+    $.ajax ({
+        type: 'post',
+        url: "{{url_for('patent.fav_add_news')}}",
+        datatype: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(data), 
+        success: function(data) { 
+            if (data.result == 1) {
+                $('.fav-news').eq(index).addClass('fav-add')
+            }
+        }
+    })
 }
 </script>
 </html>
