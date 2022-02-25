@@ -306,11 +306,10 @@ select::-ms-expand {                                        /* IE 10, 11의 네�
 #btn_update { 
     width: 100%; 
     height: auto !important;
+    color: #fff;
     background-color: #004771;
     font-size: 18px;
     padding: 15px 32px;
     border: 2px solid #004771;
     margin:30px 0;
 }
-
-

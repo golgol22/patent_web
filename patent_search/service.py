@@ -2,7 +2,7 @@ from flask import session
 import requests
 from bs4 import BeautifulSoup
 from member.vo import db
-from patent_search.vo import WordSearch, Keyword, Field
+from patent_search.vo import WordSearch, Field
 from konlpy.tag import Okt
 from collections import Counter
 
@@ -23,14 +23,6 @@ class DBService: # field 테이블에 저장, 검색
         f = self.getById()
         f.field_name = f_name
         db.session.commit()
-        
-class Service: # Keyword테이블에 년도별 빈도수가 많은 값 DB에 저장
-    def add(self, yk:Keyword):
-        db.session.add(yk)
-        db.session.commit()
-    
-    def getByAll(self, year):
-        return Keyword.query.filter(Keyword.year==year).all()
     
 class SearchService:
     def __init__(self):
@@ -234,10 +226,12 @@ class SearchService:
         res = []
         inventionTitle = '' 
         term = str(year) + '0101~' + str(year) + '1231'
-        for pageNo in range(1, 6):
-            res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, pageNo= pageNo, numOfRows=500)
+        
+        for pn in range(1, 10): 
+            res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, pageNo=pn, numOfRows=500)
         
             print(str(year) + '년 총 개수: ' + str(totalCounts))
+            print(str(year) + '년 페이지 번호: ' + str(pn))
             print(str(year) + '년 불러온 행의 개수: ' + str(len(res)))
         
             for r in res:

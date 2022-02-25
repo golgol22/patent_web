@@ -2,6 +2,8 @@ from flask import Flask, request, render_template, redirect, session
 from datetime import datetime
 import pandas as pd
 import matplotlib.pyplot as plt
+
+# 한글깨짐 방지
 plt.rc('font', family='NanumBarunGothic')
 plt.rc('axes', unicode_minus=False)
 
@@ -9,8 +11,7 @@ from member.vo import db, migrate
 import routes.member_route as mr
 import routes.patent_route as pr
 
-from patent_search.service import SearchService, Service
-from patent_search.vo import Keyword
+from patent_search.service import SearchService
 from member.vo import db
 
 import config   # 컨피그 파일(config.py) import
@@ -33,36 +34,16 @@ db.init_app(app)
 migrate.init_app(app, db)
 
 service = SearchService() # 검색 
-dbService = Service() # 년도별 키워드 저장 DB
     
 @app.route('/')
 def root():
     if 'flag' not in session.keys():
         session['flag'] = False
-       
-    # == 파일에 값 저장하기 (값을 다시 불러올 경우에만 주석해제하고 사용)==
-    # 년도별 빈도수 많은 키워드 DB에 저장
-    # for year in range(2017, 2022):
-    #     tags = service.getYearKeywordSearch(year)
-    #     print(tags)
-        
-    #     for keyword, num in tags:
-    #         dbService.add(Keyword(year=year, keyword=keyword))
-    
-    # 년도별 키워드 DB에서 불러오기 
-    res_2017 = dbService.getByAll(2017)
-    res_2017 = enumerate(res_2017)
-    res_2018 = dbService.getByAll(2018)
-    res_2018 = enumerate(res_2018)
-    res_2019 = dbService.getByAll(2019)
-    res_2019 = enumerate(res_2019)
-    res_2020 = dbService.getByAll(2020)
-    res_2020 = enumerate(res_2020)
-    res_2021 = dbService.getByAll(2021)
-    res_2021 = enumerate(res_2021)
    
     # 오늘 날짜 구하기 
     date = datetime.today().strftime("%Y년 %m월 %d일")  
+    
+    # 검색 키워드 순위
     
     # 년도별 분야별 특허 출원수 그래프 그리기
     year_ipc_patent = pd.read_csv('year_ipc_patent.csv', index_col=0, encoding='euc-kr')
@@ -83,6 +64,13 @@ def root():
     
     year_ipc_ranking_data = sorted(year_ipc_ranking_data.items(), key=lambda x: x[1], reverse=True)
     year_ipc_ranking_data = enumerate(year_ipc_ranking_data)
+        
+    # 년도별 주요 키워드
+    years = [2017, 2018, 2019, 2020, 2021]
+    year_keyword = pd.read_csv('year_keyword.csv', encoding='euc-kr')
+    for year in years:
+        globals()[f'res_{year}'] = year_keyword[year_keyword['년도'] == year].values.tolist()
+        globals()[f'res_{year}'] = enumerate(globals()[f'res_{year}'])
         
     return render_template('index.html', date=date, year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
         res_2017=res_2017, res_2018=res_2018, res_2019=res_2019, res_2020=res_2020, res_2021=res_2021)

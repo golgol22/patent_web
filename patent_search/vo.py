@@ -4,15 +4,7 @@ from member.vo import db
 class Field(db.Model):
     user = db.Column(db.String(50), db.ForeignKey('member.id', ondelete='CASCADE'), primary_key=True)
     field_name = db.Column(db.String(20), nullable=False)
-
-
-# 최근 5개년 특허에서 가장 많이 등장한 단어 3개추출
-class Keyword(db.Model): 
-    num = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.String(20), nullable=False)
-    keyword = db.Column(db.String(20), nullable=False)
     
-
 class WordSearch:
     
     def __init__(self, indexNo, registerStatus, inventionTitle, ipcNumber, registerNumber, registerDate, applicationNumber, applicationDate, 
