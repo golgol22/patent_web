@@ -24,6 +24,13 @@ class DBService: # field 테이블에 저장, 검색
         f.field_name = f_name
         db.session.commit()
         
+class Service: # Keyword테이블에 년도별 빈도수가 많은 값 DB에 저장
+    def add(self, yk:Keyword):
+        db.session.add(yk)
+        db.session.commit()
+    
+    def getByAll(self, year):
+        return Keyword.query.filter(Keyword.year==year).all()
     
 class SearchService:
     def __init__(self):
@@ -239,7 +246,9 @@ class SearchService:
         okt = Okt()
         sentence_tag = []
         sentence_tag = okt.pos(inventionTitle)
-        words = ['기능', '구조', '장치', '구비', '이용', '방지', '조절', '제조', '보조', '포함', '모듈', '용기', '방법', '제어', '기구', '사용', '기용', '조성', '이의', '조립', '처리']
+        words = ['시스템', '서비스', '정보', '제공', '기초', '기반', '관리',  '표시', '연결', 
+                 '형성', '기능', '구조', '장치', '구비', '이용', '방지', '조절', '제조', '보조', 
+                 '포함', '모듈', '용기', '방법', '제어', '기구', '사용', '기용', '조성', '이의', '조립', '처리']
 
         noun_adj_list = []
         for word, tag in sentence_tag:
@@ -250,14 +259,6 @@ class SearchService:
         tags = counts.most_common(10)
         return tags
         
-
-class Service: # 키워드 데이터 DB에 저장
-    def add(self, yk:Keyword):
-        db.session.add(yk)
-        db.session.commit()
-    
-    def getByAll(self):
-        return Keyword.query.order_by(Keyword.year.asc())
     
  
 

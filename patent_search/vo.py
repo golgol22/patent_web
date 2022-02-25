@@ -1,9 +1,17 @@
 from member.vo import db
 
+# 회원의 관심 분야 저장
 class Field(db.Model):
-    # num = db.Column(db.Integer, primary_key=True)  
     user = db.Column(db.String(50), db.ForeignKey('member.id', ondelete='CASCADE'), primary_key=True)
     field_name = db.Column(db.String(20), nullable=False)
+
+
+# 최근 5개년 특허에서 가장 많이 등장한 단어 3개추출
+class Keyword(db.Model): 
+    num = db.Column(db.Integer, primary_key=True)
+    year = db.Column(db.String(20), nullable=False)
+    keyword = db.Column(db.String(20), nullable=False)
+    
 
 class WordSearch:
     
@@ -27,11 +35,4 @@ class WordSearch:
         self.applicantName = applicantName
    
         
-# 최근 5개년 특허에서 가장 많이 등장한 단어 3개추출
-class Keyword(db.Model): 
-    num = db.Column(db.Integer, primary_key=True)
-    year = db.Column(db.String(20), nullable=False)
-    keyword = db.Column(db.String(20), nullable=False)
 
-
-# 분야별 특허가 가장 많은 출원인 저장

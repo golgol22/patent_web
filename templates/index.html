@@ -5,41 +5,92 @@
     <link type="text/css" rel="stylesheet" href="/static/css/index.css"> 
     <title>Everything - 특허에 관한 모든 것</title>
 </head>
-<body style="height: 100%; overflow-y: auto; z-index: 999">
+<body>
     <div id="wrap">
         {% include 'include/header.html' %}
         
-        <div id="contents-main">
-            <div class="contents-container">
-                <div class="contents-title">Best</div>
-                
-                <div class="contents-group">
-                    <% for(var data of product) { %>
-                    <div class="contents-item">
-                        <div class="contents-img">
-                            <img src="<%= data.prd_img %>" alt="">
+        <div class="contents-main">
+        	<div class="contents-contrainer">
+
+        		<div class="contents-header">
+		            <div class="contents-titles">
+                        {% if not session.flag %}
+                            <div class="contents-title">로그인을 해주세요</div> <!-- 로그인안하면 '로그인해주세요' -->
+                        {%  else %}
+		                    <div class="contents-title">{{session.login_id}}</div> 
+                        {% endif %}
+					</div>
+                    <div class="date">{{date}}</div>
+				</div>
+
+                <div class="analysis">
+                    <div class="common-top full">
+                        <div class="common-top-left">
+                            <!-- Everything 검색어 순위 -->
+                            <div class="common-search-ranking graph">
+                                <div class="graph-title">검색어 순위</div>
+                                <div class="graph-content"><span class="strong">1</span> 검색</div>
+                                <div class="graph-content"><span class="strong">2</span> 검색</div>
+                                <div class="graph-content"><span class="strong">3</span> 검색</div>
+                                <div class="graph-content"><span class="strong">4</span> 검색</div>
+                                <div class="graph-content"><span class="strong">5</span> 검색</div>
+                            </div>
+                            <!-- 분야별 특허 출원 순위 -->
+                            <div class="common-field-ranking graph">
+                                <div class="graph-title">분야별 특허 출원 순위</div>
+                                {% for i, (key, value) in year_ipc_ranking_data %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{key}}</div>
+                                {% endfor %}
+                            </div>
                         </div>
-                        <div class="name-kor"><%= data.prd_kor %></div>
-                        <div class="name-eng"><%= data.prd_eng %></div>
-                    </div>
-                    <% } %>
-                </div>
-            </div>
-            
-            <div class="contents-container">
-                <div class="contents-title">Contest</div>
-                
-                <div class="contents-group">
-                    <% for(var data of contest) { %>
-                    <div class="contents-item">
-                        <div class="contents-img">
-                            <img src="<%= data.cont_img %>" alt="">
+                        <!-- 년도별 분야별 특허 출원수 -->
+                        <div class="common-year-field graph">
+                            <div class="graph-title">년도별 분야별 특허 출원수</div>
+                            <img class="year-ipc-graph" src="{{img_path}}">
                         </div>
-                        <div class="name-kor"><%= data.cont_title %></div>
-                        <div class="contest-review"><%= data.cont_review %></div>
                     </div>
-                    <% } %>
+
+                    <div class="common-middle full">
+                        <!-- 년도별 빈도수 높은 키워드 -->
+                        <div class="common-year-keyword">
+                            <div class="common-year-2017 graph equal">
+                                <div class="graph-title">2017 키워드</div>
+                                {% for i, r in res_2017 %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{r.keyword}}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="common-year-2018 graph equal">
+                                <div class="graph-title">2018 키워드</div>
+                                {% for i, r in res_2018 %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{r.keyword}}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="common-year-2019 graph equal">
+                                <div class="graph-title">2019 키워드</div>
+                                {% for i, r in res_2019 %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{r.keyword}}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="common-year-2020 graph equal">
+                                <div class="graph-title">2020 키워드</div>
+                                {% for i, r in res_2020 %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{r.keyword}}</div>
+                                {% endfor %}
+                            </div>
+                            <div class="common-year-2021 graph">
+                                <div class="graph-title">2021 키워드</div>
+                                {% for i, r in res_2021 %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{r.keyword}}</div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <div class="fav-top full">
+                    <div></div>
+                </div>
+
             </div>
         </div>
         
