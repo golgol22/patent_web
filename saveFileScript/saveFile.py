@@ -24,7 +24,7 @@ class SaveFile:
         data = pd.DataFrame(total_data, 
                 index=['2017', '2018', '2019', '2020', '2021'], 
                 columns=['생활(A)', '운송(B)', '화학(C)', '섬유(D)', '구조(E)', '기계(F)', '물리(G)', '전기(H)'])
-        data.to_csv('year_ipc_patent.csv', index='년도', encoding='euc-kr')
+        data.to_csv('static/csv/year_ipc_patent.csv', index='년도', encoding='euc-kr')
         
     
     # 년도별 빈도수 많은 키워드 DB에 저장
@@ -42,7 +42,7 @@ class SaveFile:
             
         data = pd.DataFrame(total_data, 
                 columns=['년도', '단어', '빈도수'])
-        data.to_csv('year_keyword.csv', index=False, encoding='euc-kr')    
+        data.to_csv('static/csv/year_keyword.csv', index=False, encoding='euc-kr')    
 
 
 if __name__ == "__main__": 
