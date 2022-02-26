@@ -2,7 +2,6 @@ import pandas as pd
 from service import SearchService
 
 
-# 모듈 import 경로 변경 필요
 class SaveFile:
     
     def __init__(self): 

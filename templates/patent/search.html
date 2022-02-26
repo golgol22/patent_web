@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
     {% include 'include/head.html' %}
-    <link type="text/css" rel="stylesheet" href="/static/css/office.css"> 
+    <link type="text/css" rel="stylesheet" href="/static/css/search.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>특허 검색</title>
 </head>
@@ -10,10 +10,22 @@
     <div id="wrap">
         {% include 'include/header.html' %}
 
-        <div>
+        <div class="contents-main">
+        	<div class="contents-contrainer">
 
+        		<div class="contents-header">
+		            <div class="contents-titles">
+                        <div class="contents-title">특허 검색</div> 
+					</div>
+                    <div class="search-box">
+						<input type="text" class="search-item" placeholder="특허 주요 단어로 간략검색"/>
+					</div>
+				</div>
+
+                
+
+            </div>
         </div>
-
         {% include 'include/footer.html' %}
     </div>
 </body>

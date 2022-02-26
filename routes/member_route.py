@@ -1,4 +1,5 @@
 from flask import request, render_template, redirect, Blueprint, session, json, jsonify
+from datetime import datetime
 from member.vo import Member
 from member.service import Service
 from patent_office.vo import Office
@@ -65,15 +66,25 @@ def login_action():
 @bp.route('/logout')
 def logout():
     service.logout()
-    return render_template('index.html')
+    return redirect('/')
 
 @bp.route('/mypage')
 def mypage():
+    # 관심분야 등록
     f = field_DB_service.getById()
+    
+    # 찜한 사무소
     res_office = office_DB_service.getById()
+    
+    # 찜한 뉴스
     res_news = news_DB_service.getById()
+    
+    # 오늘 날짜 구하기 
+    date = datetime.today().strftime("%Y년 %m월 %d일")  
+    
+    # 회원정보
     m:Member = service.myInfo()
-    return render_template('member/mypage.html', f=f, res_office=res_office, res_news=res_news, m=m)
+    return render_template('member/mypage.html', f=f, res_office=res_office, res_news=res_news, date=date, m=m)
 
 @bp.route('/user_fav_field', methods=['POST'])
 def user_fav_field():

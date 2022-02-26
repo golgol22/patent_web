@@ -16,11 +16,11 @@
 		            <div class="contents-titles">
                         {% if not session.flag %}
                             <div class="contents-title">로그인을 해주세요</div>
-                        {%  else %}
+                        {% else %}
                             {% if fav_field != None %}
 		                        <div class="contents-title">{{session.login_id}}</div> 
                             {% else %}
-                                <div class="contents-title">마이페이지에서 관심분야를 등록해보세요</div> 
+                                <div class="contents-title">관심분야를 등록해보세요</div> 
                             {% endif %}
                         {% endif %}
 					</div>

@@ -4,7 +4,53 @@
     {% include 'include/head.html' %}
     <link type="text/css" rel="stylesheet" href="/static/css/mypage.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+    <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
+    <script src="https://uicdn.toast.com/tui.time-picker/v1.6.1/tui-time-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui.date-picker/v3.3.4/tui-date-picker.min.js"></script>
+    <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
     <title>마이페이지</title>
+    <script>
+        window.onload = makeCal;
+        var calendarInstance;
+        function makeCal() {
+            var Calendar = tui.Calendar;
+            // 달력 상단 요일 생성하는 부분
+             var $calEl = $('#calendar').tuiCalendar({
+                defaultView: 'month',
+                taskView: true,
+                template: {
+                    monthDayname: function(dayname) {
+                        return '<span class="calendar-week-dayname-name">' + dayname.label + '</span>';
+                    }
+                }
+            }); 
+            calendarInstance = $calEl.data('tuiCalendar');
+            calendarInstance.createSchedules([
+                {
+                    id: '1',
+                    calendarId: '1',
+                    title: 'my schedule',
+                    category: 'time',
+                    dueDateClass: '',
+                    start: '2018-01-18T22:30:00+09:00',
+                    end: '2018-01-19T02:30:00+09:00'
+                },
+                {
+                    id: '2',
+                    calendarId: '1',
+                    title: 'second schedule',
+                    category: 'time',
+                    dueDateClass: '',
+                    start: '2018-01-18T17:30:00+09:00',
+                    end: '2018-01-19T17:31:00+09:00',
+                    isReadOnly: true    // schedule is read-only
+                }
+            ]); 
+        }
+    </script>
 </head>
 <body>
     <div id="wrap">
@@ -28,9 +74,6 @@
                         </div>
                         <div class="fav_news">
                             찜한 뉴스
-                        </div>
-                        <div class="fav_docu">
-                            찜한 문서
                         </div>
                         <div class="fav_word">
                             찜한 단어
@@ -56,9 +99,6 @@
                     </div>
                     <div class="fav_news">
                         찜한 뉴스
-                    </div>
-                    <div class="fav_docu">
-                        찜한 문서
                     </div>
                     <div class="fav_word">
                         찜한 단어
@@ -107,7 +147,7 @@
                                 <div class='field-setting-text'>관심분야가 설정되어있지 않습니다.</div>
                             {% endif %}
                         </div>
-
+                        <!-- 찜한 특허 -->
                         <div class="content fav-patent-content">
 
                         </div>
@@ -144,17 +184,27 @@
                                 {% endfor %}
                             </div>
                         </div>
-
-                        <div class="content fav-docu-content">
-
-                        </div>
-
+                        <!-- 찜한 단어 -->
                         <div class="content fav-word-content">
 
                         </div>
-
+                        <!-- 출원일정 -->
                         <div class="content fav-cal-content">
-
+                            <div class="infor-msg-area">
+                                <div class="infor-msg">
+                                    출원일을 등록하면 출원일에 맞는 대략적인 일정이 표시된 달력이 생성됩니다. <br>
+                                    일정을 관리해보세요.
+                                </div>
+                            </div>
+                            <div class="add-cal-align">
+                                <div class="date-text">Today:<span class="strong"> {{date}}</span></div>
+                                <div class="add-cal">
+                                    <input type="date" class="start-date">
+                                    <button class="add-cal-btn">출원일 등록</button>
+                                </div>
+                            </div>
+                            <div id="calendar"></div>
+                            <div class="warning-text"><span class="strong">*보편적인 일정일뿐 실제 출원일정과 차이가 있을 수 있습니다. 일정을 개인에 맞게 수정해보세요.</span></div>
                         </div>
                         <!-- 회원 정보 수정  -->
                         <div class="content user-content">
@@ -210,6 +260,45 @@ $('.field-reg-btn').click(function () {
         })
     }
 }) 
+
+// 출원 일정 관리 
+
+// 스케줄 생성
+$('.add-cal-btn').click(function () {
+    calendarInstance.createSchedules([
+        {
+            id: '1',
+            calendarId: '1',
+            title: 'my schedule',
+            category: 'time',
+            dueDateClass: '',
+            start: '2018-01-18T22:30:00+09:00',
+            end: '2018-01-19T02:30:00+09:00'
+        },
+        {
+            id: '2',
+            calendarId: '1',
+            title: 'second schedule',
+            category: 'time',
+            dueDateClass: '',
+            start: '2018-01-18T17:30:00+09:00',
+            end: '2018-01-19T17:31:00+09:00',
+            isReadOnly: true    // schedule is read-only
+        }
+    ]);
+}); 
+
+// 스케줄 수정 
+/* var startTime = '2022-01-18T17:30:00+09:00'
+var endTime = '2022-01-22T17:30:00+09:00'
+
+calendarInstance.updateSchedule('1', '1', {
+    start: startTime,
+    end: endTime
+}); */
+
+// 스케줄 삭제
+// calendarInstance.deleteSchedule('1', '1');
 
 //개인 정보 수정 
 $('#btn_update').click(function () {

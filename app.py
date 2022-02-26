@@ -42,6 +42,9 @@ service = SearchService() # 검색
 def root():
     if 'flag' not in session.keys():
         session['flag'] = False
+        
+    # if 'login_id' not in session.keys():
+    #     session['login_id'] = ''
    
     # 오늘 날짜 구하기 
     date = datetime.today().strftime("%Y년 %m월 %d일")  

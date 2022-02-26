@@ -163,7 +163,7 @@ $("#btn_signup").click(function () {
 	}
 });
 
-$(document).on("focus", "input[name=input]", function(){ 
+$(document).on("focus click", "input[name=input]", function(){ 
 	var num = $("input[name=input]").index(this); 
 
 	var id = $("#input_email").val().trim();

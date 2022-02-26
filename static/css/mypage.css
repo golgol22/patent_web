@@ -45,6 +45,7 @@ div.myPageLeftMenu {
     margin: 50px 60px 0 0;
     color: #010101;
     font-size: 14pt;
+    margin-bottom: 250px;
 }
 
 .myPageSubMenu {
@@ -59,6 +60,7 @@ div.myPageLeftMenu {
 
 .mobilemenu {
     display: none;
+    margin-bottom: 200px;
 }
 
 .fav_add, .fav-patent, .fav-office, .fav_news, .fav_docu, .fav_word, .cal, .user {
@@ -134,6 +136,10 @@ div.myPageLeftMenu {
     height: 20px;
     padding-right: 10px;
 }
+
+/* .mypage-content-item {
+    margin-bottom: 200px;
+} */
 
 /* 관심 분야 등록 */
 .infor-msg-area {
@@ -273,6 +279,58 @@ select::-ms-expand {                                        /* IE 10, 11의 네�
 
 .search-result-reporter {
     margin-right: 20px;
+}
+
+/* 출원일정 관리 */
+.add-cal-align {
+    width: 100%;
+    display: flex;
+    position: relative;
+    margin-top: 30px;
+}
+
+.date-text {
+    font-size: 14pt;
+    font-weight: bolder;
+    position: absolute;
+    top: 14px;
+}
+
+.add-cal {
+    margin-bottom: 20px; 
+    position: absolute;
+    right: 0px;
+}
+
+.start-date {
+    width: 200px; 
+    height: 40px;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.add-cal-btn {
+    width: 120px; 
+    height: 40px;
+    position: relative;
+    top: 2px;                                               
+    padding: .8em .5em;  
+    border: 0px;                                      
+    border-radius: 5px;  
+    background: #004771;
+    color: #fff;
+}
+
+#calendar {
+    position: relative;
+    top: 60px;
+    height: 750px;
+}
+
+.warning-text {
+    margin-top: 100px;
+    font-size: 10pt;
+    text-align: left;
 }
 
 
