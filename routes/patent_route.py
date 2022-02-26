@@ -79,24 +79,6 @@ def fav_add_news():
 def document():
     return render_template('patent/document.html')
 
-# 파일 다운로드
-@bp.route('/download', methods = ['GET', 'POST'])
-def download_file():
-    files_list = os.listdir("uploads")
-    if request.method == 'POST':
-        sw = 0
-        for x in files_list:
-            if(x == request.form['file']):
-                sw = 1
-        try:
-            path = "./uploads/"
-            return send_file(path + request.form['file'],
-                    download_name = request.form['file'],
-                    as_attachment=True)
-        except:
-            print("download error")
-    return render_template('download.html', files=files_list)
-
 # 특허단어찾기
 @bp.route('/search_word')
 def search_word():
