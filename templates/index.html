@@ -15,9 +15,13 @@
         		<div class="contents-header">
 		            <div class="contents-titles">
                         {% if not session.flag %}
-                            <div class="contents-title">로그인을 해주세요</div> <!-- 로그인안하면 '로그인해주세요' -->
+                            <div class="contents-title">로그인을 해주세요</div>
                         {%  else %}
-		                    <div class="contents-title">{{session.login_id}}</div> 
+                            {% if fav_field != None %}
+		                        <div class="contents-title">{{session.login_id}}</div> 
+                            {% else %}
+                                <div class="contents-title">마이페이지에서 관심분야를 등록해보세요</div> 
+                            {% endif %}
                         {% endif %}
 					</div>
                     <div class="date">{{date}}</div>

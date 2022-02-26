@@ -72,3 +72,13 @@ def fav_add_news():
     split_data = data.split('|')
     news_DB_service.add(News(split_data[0], split_data[1], split_data[2], split_data[3], split_data[4], split_data[5]))
     return jsonify(result=1)
+
+# 출원서&명세서
+@bp.route('/document')
+def document():
+    return render_template('patent/document.html')
+
+# 특허단어찾기
+@bp.route('/search_word')
+def search_word():
+    return render_template('patent/search_word.html')
