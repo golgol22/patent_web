@@ -46,7 +46,7 @@ def root():
     # 검색 키워드 순위
     
     # 년도별 분야별 특허 출원수 그래프 그리기
-    year_ipc_patent = pd.read_csv('ststic/csv/year_ipc_patent.csv', index_col=0, encoding='euc-kr')
+    year_ipc_patent = pd.read_csv('static/csv/year_ipc_patent.csv', index_col=0, encoding='euc-kr')
     img_path = 'static/images/year_ipc_patent.png'
     plt.figure(figsize=(8, 6))
     plt.xticks([2017, 2018, 2019, 2020, 2021])
@@ -67,7 +67,7 @@ def root():
         
     # 년도별 주요 키워드
     years = [2017, 2018, 2019, 2020, 2021]
-    year_keyword = pd.read_csv('ststic/csv/year_keyword.csv', encoding='euc-kr')
+    year_keyword = pd.read_csv('static/csv/year_keyword.csv', encoding='euc-kr')
     for year in years:
         globals()[f'res_{year}'] = year_keyword[year_keyword['년도'] == year].values.tolist()
         globals()[f'res_{year}'] = enumerate(globals()[f'res_{year}'])
