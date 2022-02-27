@@ -1,6 +1,12 @@
 from email.policy import default
 import os
+import pandas as pd
 from flask import request, render_template, redirect, Blueprint, session, json, jsonify
+
+from patent_search.vo import WordSearch
+from patent_search.service import SearchService as search_office
+from patent_search.service import DBService as search_DB_service
+from patent_search.service import FavPatentDBSservice as favPatentDBSservice
 
 from patent_office.vo import Office
 from patent_office.service import Service as office_service
@@ -10,6 +16,9 @@ from patent_news.vo import News
 from patent_news.service import Service as news_service
 from patent_news.service import DBService as news_DB_service
 
+search_office = search_office()
+search_DB_service = search_DB_service()
+favPatentDBSservice = favPatentDBSservice()
 
 office_service = office_service()
 office_DB_service = office_DB_service()
@@ -22,11 +31,43 @@ bp = Blueprint('patent', __name__, url_prefix='/patent')
 # 특허 검색 메뉴
 @bp.route('/search')
 def search():
-    return render_template('patent/search.html')
+    search_result_covid = pd.read_csv('static/csv/search_result_covid.csv', engine='python')
+    res_covid = search_result_covid[search_result_covid['등록상태'] == '등록'].values.tolist()
+    res_covid = enumerate(res_covid)
+    return render_template('patent/search.html', res_covid=res_covid)
 
-@bp.route('/search_action')
-def search_action():
-    return render_template('patent/search.html')
+@bp.route('/reg_search_action', methods=['POST'])
+def reg_search_action():
+    data = json.loads(request.data)
+    search =  data.get('search')
+    search_result_covid = pd.read_csv('static/csv/search_result_covid.csv', engine='python')
+    res_covid = search_result_covid[search_result_covid['등록상태'] == search].values.tolist()
+    res = []
+    for covid in res_covid:
+        res.append(WordSearch(covid[0], covid[1], covid[2], covid[3], covid[4], covid[5], 
+            covid[6], covid[7], covid[8], covid[9], covid[10], covid[11], covid[12], 
+            covid[13], covid[14], covid[15]))
+    return jsonify(result=json.dumps(res, default=str))
+
+@bp.route('/word_search_action', methods=['POST'])
+def word_search_action():
+    data = json.loads(request.data)
+    search =  data.get('search')
+    # search_result_covid = pd.read_csv('static/csv/search_result_covid.csv', engine='python')
+    # res_covid = search_result_covid[search_result_covid['등록상태'] == search].values.tolist()
+    # res_covid = enumerate(res_covid)
+    # return jsonify(result=json.dumps(res_covid, default=str))
+
+@bp.route('/fav_add_patent', methods=['POST'])
+def fav_add_patent():
+    data = json.loads(request.data)
+    data =  data.get('data')
+    data = str(data)
+    split_data = data.split('|')
+    favPatentDBSservice.add(WordSearch(split_data[0], split_data[1], split_data[2], split_data[3], 
+        split_data[4], split_data[5], split_data[6], split_data[7], split_data[8], split_data[9], split_data[10],
+        split_data[11], split_data[12], split_data[13], split_data[14], split_data[15]))
+    return jsonify(result=1)
 
 # 특허 사무소
 @bp.route('/office')

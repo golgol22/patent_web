@@ -208,7 +208,7 @@ class SearchService:
         inventionTitle = '' 
         term = str(year) + '0101~' + str(year) + '1231'
         
-        for pn in range(1, 10): 
+        for pn in range(0, 10): 
             res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, pageNo=pn, numOfRows=500)
         
             print(str(year) + '년 총 개수: ' + str(totalCounts))

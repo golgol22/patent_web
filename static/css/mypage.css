@@ -137,10 +137,6 @@ div.myPageLeftMenu {
     padding-right: 10px;
 }
 
-/* .mypage-content-item {
-    margin-bottom: 200px;
-} */
-
 /* 관심 분야 등록 */
 .infor-msg-area {
     width: 100% - 100px;
@@ -162,19 +158,19 @@ div.myPageLeftMenu {
 
 select {
     margin-top: 20px;
-    width: 200px;                                                /* 원하는 너비설정 */
-    padding: .8em .5em;                                        /* 여백으로 높이 설정 */
+    width: 200px;                                                
+    padding: .8em .5em;                                        
     border: 1px solid #999;
-    font-family: inherit;                                          /* 폰트 상속 */
-    /* background: url('arrow.jpg') no-repeat 95% 50%;    네이티브 화살표 대체 이미지와 위치  */
-    border-radius: 5px;                                          /* iOS 둥근모서리 제거 */
-    -webkit-appearance: none;                                 /* 네이티브 외형 감추기 */
+    font-family: inherit;                                         
+    /* background: url('arrow.jpg') no-repeat 95% 50%;   */
+    border-radius: 5px;                                         
+    -webkit-appearance: none;                              
     -moz-appearance: none;
     appearance: none;
     margin-right: 20px;
 }
       
-select::-ms-expand {                                        /* IE 10, 11의 네이티브 화살표 숨기기 */
+select::-ms-expand {                                       
     display: none;
 }
 
@@ -195,7 +191,6 @@ select::-ms-expand {                                        /* IE 10, 11의 네�
     font-size: 14pt;
     font-weight: bold;
 }
-
 
 /* 찜한 사무소 목록 */
 #table {
@@ -321,14 +316,20 @@ select::-ms-expand {                                        /* IE 10, 11의 네�
     color: #fff;
 }
 
+
+#menu {
+    position: relative;
+    top: 100px;
+}
+
 #calendar {
     position: relative;
-    top: 60px;
+    top: 100px;
     height: 750px;
 }
 
 .warning-text {
-    margin-top: 100px;
+    margin-top: 120px;
     font-size: 10pt;
     text-align: left;
 }

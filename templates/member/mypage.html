@@ -4,13 +4,21 @@
     {% include 'include/head.html' %}
     <link type="text/css" rel="stylesheet" href="/static/css/mypage.css"> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
     <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
     <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/icons.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/icons.css" />
+    <link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/icons.css" />
     <script src="https://uicdn.toast.com/tui.code-snippet/latest/tui-code-snippet.js"></script>
     <script src="https://uicdn.toast.com/tui.time-picker/v1.6.1/tui-time-picker.min.js"></script>
     <script src="https://uicdn.toast.com/tui.date-picker/v3.3.4/tui-date-picker.min.js"></script>
     <script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
+    
     <title>마이페이지</title>
     <script>
         window.onload = makeCal;
@@ -130,7 +138,7 @@
                             </div>
 
                             <select class='field'>
-                                <option value='' selected>-- 선택 --</option>
+                                <option value='-- 선택 --' selected>-- 선택 --</option>
                                 <option value='생활(A)'>생활(A)</option>
                                 <option value='운송(B)'>운송(B)</option>
                                 <option value='화학(C)'>화학(C)</option>
@@ -203,7 +211,21 @@
                                     <button class="add-cal-btn">출원일 등록</button>
                                 </div>
                             </div>
+                            <div id="menu">
+                                <span id="menu-navi">
+                                    <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
+                                    <button type="button" class="btn btn-default btn-sm move-day" data-action="move-prev">
+                                        <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
+                                    </button>
+                                    <button type="button" class="btn btn-default btn-sm move-day" data-action="move-next">
+                                        <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
+                                    </button>
+                                </span>
+                                <span id="renderRange" class="render-range"></span>
+                            </div>
+                          
                             <div id="calendar"></div>
+                            
                             <div class="warning-text"><span class="strong">*보편적인 일정일뿐 실제 출원일정과 차이가 있을 수 있습니다. 일정을 개인에 맞게 수정해보세요.</span></div>
                         </div>
                         <!-- 회원 정보 수정  -->

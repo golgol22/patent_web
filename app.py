@@ -42,9 +42,6 @@ service = SearchService() # 검색
 def root():
     if 'flag' not in session.keys():
         session['flag'] = False
-        
-    # if 'login_id' not in session.keys():
-    #     session['login_id'] = ''
    
     # 오늘 날짜 구하기 
     date = datetime.today().strftime("%Y년 %m월 %d일")  
@@ -77,8 +74,7 @@ def root():
     for year in years:
         globals()[f'res_{year}'] = year_keyword[year_keyword['년도'] == year].values.tolist()
         globals()[f'res_{year}'] = enumerate(globals()[f'res_{year}'])
-        
-        
+               
     # 로그인이 되어있고 관심분야가 등록되어 있으면 관심분야에 대한 분석도 제공
     filepath = 'static/csv/'
     fav_field = Field()

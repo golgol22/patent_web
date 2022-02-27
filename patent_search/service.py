@@ -24,6 +24,10 @@ class DBService: # field 테이블에 저장, 검색
         f.field_name = f_name
         db.session.commit()
     
+class FavPatentDBSservice():
+    pass
+    
+    
 class SearchService:
     def __init__(self):
         self.key = 'ooRP9Oq6WkfYDhiOcE/YjBxb91I5spT1hpEJPl01lMQ='
@@ -197,22 +201,22 @@ class SearchService:
         res = []
 
         for i in item:
-            indexNo = i.find('indexNo').text
-            registerStatus = i.find('registerStatus').text
-            inventionTitle = i.find('inventionTitle').text
-            ipcNumber =  i.find('ipcNumber').text
-            registerNumber = i.find('registerNumber').text
-            registerDate = i.find('registerDate').text
-            applicationNumber = i.find('applicationNumber').text
-            applicationDate = i.find('applicationDate').text
-            openNumber = i.find('openNumber').text
-            openDate = i.find('openDate').text
-            publicationNumber = i.find('publicationNumber').text
-            publicationDate = i.find('publicationDate').text
-            astrtCont = i.find('astrtCont').text
-            bigDrawing = i.find('bigDrawing').text
-            drawing = i.find('drawing').text
-            applicantName = i.find('applicantName').text
+            indexNo = '' if i.find('indexNo').text == None else i.find('indexNo').text
+            registerStatus = '' if i.find('registerStatus').text == None else i.find('registerStatus').text
+            inventionTitle = '' if i.find('inventionTitle').text == None else i.find('inventionTitle').text
+            ipcNumber = '' if i.find('ipcNumber').text == None else i.find('ipcNumber').text
+            registerNumber = '' if i.find('registerNumber').text == None else i.find('registerNumber').text
+            registerDate = '' if i.find('registerDate').text == None else i.find('registerDate').text
+            applicationNumber = '' if i.find('applicationNumber').text == None else i.find('applicationNumber').text
+            applicationDate = '' if i.find('applicationDate').text == None else i.find('applicationDate').text
+            openNumber = '' if i.find('openNumber').text == None else i.find('openNumber').text
+            openDate = '' if i.find('openDate').text == None else i.find('openDate').text
+            publicationNumber = '' if i.find('publicationNumber').text == None else i.find('publicationNumber').text
+            publicationDate = '' if i.find('publicationDate').text == None else i.find('publicationDate').text
+            astrtCont = '' if i.find('astrtCont').text == None else i.find('astrtCont').text
+            bigDrawing = '' if i.find('bigDrawing').text == None else i.find('bigDrawing').text
+            drawing = '' if i.find('drawing').text == None else i.find('drawing').text
+            applicantName = '' if i.find('applicantName').text == None else i.find('applicantName').text
             
             res.append(WordSearch(indexNo=indexNo, registerStatus=registerStatus, inventionTitle=inventionTitle, ipcNumber=ipcNumber,
                     registerNumber=registerNumber, registerDate=registerDate, applicationNumber=applicationNumber, applicationDate=applicationDate, 
@@ -227,7 +231,7 @@ class SearchService:
         inventionTitle = '' 
         term = str(year) + '0101~' + str(year) + '1231'
         
-        for pn in range(1, 10): 
+        for pn in range(0, 10): 
             res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, pageNo=pn, numOfRows=500)
         
             print(str(year) + '년 총 개수: ' + str(totalCounts))

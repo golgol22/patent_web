@@ -1,4 +1,5 @@
 import pandas as pd
+from vo import WordSearch
 from service import SearchService
 
 
@@ -44,7 +45,38 @@ class SaveFile:
         data.to_csv('static/csv/year_keyword.csv', index=False, encoding='euc-kr')    
 
 
+    def search_result_covid(self):
+        # 코로나, covid 
+        total_data = []
+        for pageNo in range(0, 1):
+            res_patent, numOfRows, pageNo, totalCount = self.service.getAdvancedSearch(inventionTitle='코로나', sortSpec='AD', descSort='true', numOfRows=500, pageNo=pageNo)
+            for patent in res_patent:
+                row_data = []
+                row_data.append(patent.__getattribute__('indexNo'))
+                row_data.append(patent.__getattribute__('registerStatus'))
+                row_data.append(patent.__getattribute__('inventionTitle'))
+                row_data.append(patent.__getattribute__('ipcNumber'))
+                row_data.append(patent.__getattribute__('registerNumber'))
+                row_data.append(patent.__getattribute__('registerDate'))
+                row_data.append(patent.__getattribute__('applicationNumber'))
+                row_data.append(patent.__getattribute__('applicationDate'))
+                row_data.append(patent.__getattribute__('openNumber'))
+                row_data.append(patent.__getattribute__('openDate'))
+                row_data.append(patent.__getattribute__('publicationNumber'))
+                row_data.append(patent.__getattribute__('publicationDate'))
+                row_data.append(patent.__getattribute__('astrtCont'))
+                row_data.append(patent.__getattribute__('bigDrawing'))
+                row_data.append(patent.__getattribute__('drawing'))
+                row_data.append(patent.__getattribute__('applicantName'))
+                print(row_data)
+                total_data.append(row_data)
+                
+        data = pd.DataFrame(total_data, 
+            columns=['일련번호', '등록상태', '발명의 명칭', 'IPC 번호', '등록번호', '등록일자', '출원번호', '출원일자', '공개번호', '공개일자', '공고번호', '공고일자', '초록', '큰 이미지 경로', '이미지 경로', '출원인'])
+        data.to_csv('static/csv/search_result_covid.csv', index=False, encoding='utf-8')  
+
 if __name__ == "__main__": 
     sf = SaveFile()
     # sf.year_ipc_patent()
-    sf.year_keyword()
+    # sf.year_keyword()
+    sf.search_result_covid()

@@ -22,6 +22,41 @@
 					</div>
 				</div>
 
+        		<div class="contents-header">
+		            <div class="contents-titles">
+                        <div class="result-header-title"><span class="strong">"코로나"</span>로 검색한 총 검색결과</div> 
+					</div>
+				</div>
+
+                <div class="contents-sectors">
+					<button class="contents-sector-item on">등록</button>
+                    <button class="contents-sector-item">거절</button>
+                    <button class="contents-sector-item">소멸</button>
+                    <button class="contents-sector-item">무효</button>
+                    <button class="contents-sector-item">취하</button>
+                    <button class="contents-sector-item">포기</button>
+				</div>
+				
+                <div class="search-result-all">
+                    <div class="search-result-content">
+                        {% for index, covid in res_covid %}
+                        <div class="search-result-one">
+                            <img src="{{covid[14]}}" class="search-result-img" onerror="this.src='/static/images/404.png" onclick="moveUrl('{{covid[13]}}')">
+                            <div class="search-result-right-align">
+                                <div class="search-result-title"><span class="applicationNumber">{{covid[6]}}</span> {{covid[2]}}</div>
+                                <div class="search-result-summary">{{covid[12]}}</div>
+                                <div class="search-result-etc1">
+                                    <div class="search-result-applicantName"><span class="bold">출원인: <span> {{covid[15]}}</div>
+                                    <div class="search-result-date"><span class="bold">출원일자: </span> {{covid[7]}}</div>
+                                </div>
+                                <div class="search-result-fav-button">
+                                    <button class="fav-patent" onclick="fav_add({{index}}, '{{covid}}');"><i class="fa fa-heart"> 찜하기</i></button>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
                 
 
             </div>
@@ -30,6 +65,64 @@
     </div>
 </body>
 <script>
+$(document).on("click", ".contents-sector-item", function(){
+    var search = $(this).text().trim()
+    var data = { "search": search }
+    $(this).parent().children('button').removeClass('on');  
+    $(this).addClass('on');
+    $.ajax ({
+        type: 'post',
+        url: "{{url_for('patent.reg_search_action')}}",
+        datatype: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(data), 
+        success: function(data) { 
+            var data_result = JSON.parse(data.result);
+            console.log(">> " + data_result)
+            $('.search-result-content').html('')
+            $('.search-result-content').append(drawingSearchList(data_result))
+        }
+    })
+})
 
+function drawingSearchList(data_result) {
+	var addTag = "";
+	$.each(data_result, function(index, data){
+        var patentData = data.split('|')
+		addTag += "<div class='search-result-one'>"
+   			+ "<img src=\'" + patentData[14] + "\' class='search-result-img' onerror='this.src=\'/static/images/404.png\'' onclick=\"moveUrl('" + patentData[13] + "\')\">"
+            + "<div class='search-result-right-align'>"
+   			+ "<div class='search-result-title'><span class='applicationNumber'>" + patentData[6] + "</span>" + patentData[2] + "</div>"
+            + "<div class='search-result-summary'>" + patentData[12] + "</div>"
+            + "<div class='search-result-etc1'>"
+            + "<div class='search-result-applicantName'><span class='bold'>출원인: </span>" + patentData[15] + "</div>"
+            + "<div class='search-result-date'><span class='bold'>출원일자: <span>" + patentData[7] + "</div>"
+            + "</div>"
+            + "<div class='search-result-fav-button'>"
+            + "<button class='fav-patent' onclick=\"fav_add(" + index + ", '" + String(data) + "');\"><i class='fa fa-heart'> 찜하기</i></button>"
+            + "</div></div></div>"
+    })
+    return addTag;
+}
+
+function moveUrl(url) {
+    location.href = url;
+}
+
+function fav_add(index, datastr) {
+    var data = { "data": datastr }
+    $.ajax ({
+        type: 'post',
+        url: "{{url_for('patent.fav_add_patent')}}",
+        datatype: 'text',
+        contentType: "application/json",
+        data: JSON.stringify(data), 
+        success: function(data) { 
+            if (data.result == 1) {
+                $('.fav-patent').eq(index).addClass('fav-add')
+            }
+        }
+    })
+}
 </script>
 </html>
