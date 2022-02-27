@@ -62,6 +62,7 @@
     </div>
 </body>
 <script>
+var flag = '{{ session.flag }}'
 $(document).on("click", ".contents-sector-item", function(){
     var search = $(this).text().trim()
     var data = { "search": search }
@@ -106,19 +107,23 @@ function moveUrl(url) {
 }
 
 function fav_news_add(index, datastr) {
-    var data = { "data": datastr }
-    $.ajax ({
-        type: 'post',
-        url: "{{url_for('patent.fav_add_news')}}",
-        datatype: 'text',
-        contentType: "application/json",
-        data: JSON.stringify(data), 
-        success: function(data) { 
-            if (data.result == 1) {
-                $('.fav-news').eq(index).addClass('fav-add')
+    if (flag == 'False' || flag == 'undefined') {
+        return alert("로그인을 해주세요")
+    } else {
+        var data = { "data": datastr }
+        $.ajax ({
+            type: 'post',
+            url: "{{url_for('patent.fav_add_news')}}",
+            datatype: 'text',
+            contentType: "application/json",
+            data: JSON.stringify(data), 
+            success: function(data) { 
+                if (data.result == 1) {
+                    $('.fav-news').eq(index).addClass('fav-add')
+                }
             }
-        }
-    })
+        })
+    }
 }
 </script>
 </html>

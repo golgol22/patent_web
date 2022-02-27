@@ -45,7 +45,7 @@ div.myPageLeftMenu {
     margin: 50px 60px 0 0;
     color: #010101;
     font-size: 14pt;
-    margin-bottom: 250px;
+    margin-bottom: 320px;
 }
 
 .myPageSubMenu {
@@ -63,7 +63,7 @@ div.myPageLeftMenu {
     margin-bottom: 200px;
 }
 
-.fav_add, .fav-patent, .fav-office, .fav_news, .fav_docu, .fav_word, .cal, .user {
+.fav_add, .fav-patent, .fav-office, .fav_news, .fav_docu, .cal, .user {
     display: block;
     height: 30px;
     width: 130px;

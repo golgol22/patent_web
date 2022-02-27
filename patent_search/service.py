@@ -201,22 +201,22 @@ class SearchService:
         res = []
 
         for i in item:
-            indexNo = '' if i.find('indexNo').text == None else i.find('indexNo').text
-            registerStatus = '' if i.find('registerStatus').text == None else i.find('registerStatus').text
-            inventionTitle = '' if i.find('inventionTitle').text == None else i.find('inventionTitle').text
-            ipcNumber = '' if i.find('ipcNumber').text == None else i.find('ipcNumber').text
-            registerNumber = '' if i.find('registerNumber').text == None else i.find('registerNumber').text
-            registerDate = '' if i.find('registerDate').text == None else i.find('registerDate').text
-            applicationNumber = '' if i.find('applicationNumber').text == None else i.find('applicationNumber').text
-            applicationDate = '' if i.find('applicationDate').text == None else i.find('applicationDate').text
-            openNumber = '' if i.find('openNumber').text == None else i.find('openNumber').text
-            openDate = '' if i.find('openDate').text == None else i.find('openDate').text
-            publicationNumber = '' if i.find('publicationNumber').text == None else i.find('publicationNumber').text
-            publicationDate = '' if i.find('publicationDate').text == None else i.find('publicationDate').text
-            astrtCont = '' if i.find('astrtCont').text == None else i.find('astrtCont').text
-            bigDrawing = '' if i.find('bigDrawing').text == None else i.find('bigDrawing').text
-            drawing = '' if i.find('drawing').text == None else i.find('drawing').text
-            applicantName = '' if i.find('applicantName').text == None else i.find('applicantName').text
+            indexNo = '-' if i.find('indexNo').text == '' else i.find('indexNo').text
+            registerStatus = '-' if i.find('registerStatus').text == '' else i.find('registerStatus').text
+            inventionTitle = '-' if i.find('inventionTitle').text == '' else i.find('inventionTitle').text
+            ipcNumber = '-' if i.find('ipcNumber').text == '' else i.find('ipcNumber').text
+            registerNumber = '-' if i.find('registerNumber').text == '' else i.find('registerNumber').text
+            registerDate = '-' if i.find('registerDate').text == '' else i.find('registerDate').text
+            applicationNumber = '-' if i.find('applicationNumber').text == '' else i.find('applicationNumber').text
+            applicationDate = '-' if i.find('applicationDate').text == '' else i.find('applicationDate').text
+            openNumber = '-' if i.find('openNumber').text == '' else i.find('openNumber').text
+            openDate = '-' if i.find('openDate').text == '' else i.find('openDate').text
+            publicationNumber = '-' if i.find('publicationNumber').text == '' else i.find('publicationNumber').text
+            publicationDate = '-' if i.find('publicationDate').text == '' else i.find('publicationDate').text
+            astrtCont = '-' if i.find('astrtCont').text == '' else i.find('astrtCont').text
+            bigDrawing = '-' if i.find('bigDrawing').text == '' else i.find('bigDrawing').text
+            drawing = '-' if i.find('drawing').text == '' else i.find('drawing').text
+            applicantName = '-' if i.find('applicantName').text == '' else i.find('applicantName').text
             
             res.append(WordSearch(indexNo=indexNo, registerStatus=registerStatus, inventionTitle=inventionTitle, ipcNumber=ipcNumber,
                     registerNumber=registerNumber, registerDate=registerDate, applicationNumber=applicationNumber, applicationDate=applicationDate, 

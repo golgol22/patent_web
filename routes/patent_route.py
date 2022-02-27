@@ -42,8 +42,10 @@ def reg_search_action():
     search =  data.get('search')
     search_result_covid = pd.read_csv('static/csv/search_result_covid.csv', engine='python')
     res_covid = search_result_covid[search_result_covid['등록상태'] == search].values.tolist()
+    print(res_covid)
     res = []
     for covid in res_covid:
+        print(covid[6], covid[7], covid[8], covid[9], covid[10], covid[11], covid[12])
         res.append(WordSearch(covid[0], covid[1], covid[2], covid[3], covid[4], covid[5], 
             covid[6], covid[7], covid[8], covid[9], covid[10], covid[11], covid[12], 
             covid[13], covid[14], covid[15]))

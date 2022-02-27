@@ -60,6 +60,7 @@
     </div>
 </body>
 <script>
+var flag = '{{ session.flag }}'
 $(document).on("click", ".contents-sector-item", function(){
     var search = $(this).text().replace('(', '').replace(')', '').trim()
     var data = { "search": search }
@@ -96,19 +97,23 @@ function drawingSearchList(data_result) {
 }
 
 function fav_office_add(index, datastr) {
-    var data = { "data": datastr }
-    $.ajax ({
-        type: 'post',
-        url: "{{url_for('patent.fav_add_office')}}",
-        datatype: 'text',
-        contentType: "application/text",
-        data: JSON.stringify(data), 
-        success: function(data) { 
-            if (data.result == 1) {
-                $('.fav-office').eq(index).addClass('fav-add')
+    if (flag == 'False' || flag == 'undefined') {
+        return alert("로그인을 해주세요")
+    } else {
+        var data = { "data": datastr }
+        $.ajax ({
+            type: 'post',
+            url: "{{url_for('patent.fav_add_office')}}",
+            datatype: 'text',
+            contentType: "application/text",
+            data: JSON.stringify(data), 
+            success: function(data) { 
+                if (data.result == 1) {
+                    $('.fav-office').eq(index).addClass('fav-add')
+                }
             }
-        }
-    })
+        })
+    }
 }
 </script>
 </html>
