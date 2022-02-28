@@ -1,10 +1,28 @@
+from tkinter.messagebox import NO
 from flask import session
 import requests
 from bs4 import BeautifulSoup
 from member.vo import db
-from patent_search.vo import WordSearch, Field, PatentDB
+from patent_search.vo import WordSearch, Search, Field, PatentDB
 from konlpy.tag import Okt
 from collections import Counter
+
+# 검색어 순위 저장 DB
+class SearchRankingDB:
+    def add(self, word):
+        s = self.getByWord(word)
+        if s == None:
+            sdb = Search(word=word, count=1)
+            db.session.add(sdb)
+        else:
+            s.count = s.count + 1  
+        db.session.commit()
+    
+    def getByWord(self, word):
+        return Search.query.get(word)
+    
+    def getByTop5(self):
+        return Search.query.order_by(Search.count.desc()).limit(5)
 
 # field 테이블(관심분야)에 저장, 검색
 class DBService: 
@@ -15,18 +33,16 @@ class DBService:
         db.session.commit()
     
     def getById(self):
-        res = []
         user = session['login_id']
         return Field.query.get(user)
     
     def edit(self, f_name):
-        user = session['login_id']
         f = self.getById()
         f.field_name = f_name
         db.session.commit()
     
 # PatentDB 테이블(짐한 특허)에 저장, 검색
-class FavPatentDBSservice():
+class FavPatentDBService():
     def add(self, p:WordSearch):
         id = session['login_id']
         ndb = PatentDB(user=id, indexNo=p.indexNo, registerStatus=p.registerStatus, 

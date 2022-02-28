@@ -75,7 +75,7 @@ class DBService: # 데이터 뉴스DB에 저장
     def add(self, n:News):
         id = session['login_id']
         ndb = NewsDB(user=id, news_img_url=n.news_img_url, news_title=n.news_title, 
-                     news_content=n.news_content, news_reporter=n.news_reporter, news_date=n.news_date, news_url=n.news_url)
+                    news_content=n.news_content, news_reporter=n.news_reporter, news_date=n.news_date, news_url=n.news_url)
         db.session.add(ndb)
         db.session.commit()
     

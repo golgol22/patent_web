@@ -18,13 +18,13 @@
                         <div class="contents-title">특허 검색</div> 
 					</div>
                     <div class="search-box">
-						<input type="text" class="search-item" placeholder="특허 주요 단어로 간략검색"/>
+						<input type="text" class="search-item" onkeypress="if( event.keyCode == 13 ){searchData();}" placeholder="특허 주요 단어로 간략검색"/>
 					</div>
 				</div>
 
         		<div class="contents-header">
 		            <div class="contents-titles">
-                        <div class="result-header-title"><span class="strong">"코로나"</span>로 검색한 총 검색결과</div> 
+                        <div class="result-header-title"><span class="strong">"코로나"</span>로 검색한 검색결과</div> 
 					</div>
 				</div>
 
@@ -44,7 +44,7 @@
                             <img src="{{covid[14]}}" class="search-result-img" onclick="moveUrl('{{covid[13]}}')">
                             <div class="search-result-right-align">
                                 <div class="search-result-title"><span class="applicationNumber">{{covid[6]}}</span> {{covid[2]}}</div>
-                                <div class="search-result-summary">{{covid[12]}}</div>
+                                <div class="search-result-content">{{covid[12]}}</div>
                                 <div class="search-result-etc1">
                                     <div class="search-result-applicantName"><span class="bold">출원인: <span> {{covid[15]}}</div>
                                     <div class="search-result-date"><span class="bold">출원일자: </span> {{covid[7]}}</div>
@@ -68,33 +68,74 @@
 var flag = '{{ session.flag }}'
 $(document).on("click", ".contents-sector-item", function(){
     var search = $(this).text().trim()
-    var data = { "search": search }
+    var word = $('.result-header-title').text().trim().split('\"')
+    var data = { "search": search, "word": word[1] }
     $(this).parent().children('button').removeClass('on');  
     $(this).addClass('on');
+
+    if (word[1] == '코로나') { // TODO: covid도 추가하기
+        $.ajax ({
+            type: 'post',
+            url: "{{url_for('patent.reg_search_action')}}",
+            datatype: 'text',   
+            contentType: "application/json",
+            data: JSON.stringify(data), 
+            success: function(data) { 
+                var data_result = JSON.parse(data.result);
+                $('.search-result-content').html('')
+                $('.search-result-content').append(drawingSearchList(data_result))
+            }
+        })
+    } else {
+        $.ajax ({
+            type: 'post',
+            url: "{{url_for('patent.reg_search_action2')}}",
+            datatype: 'text',   
+            contentType: "application/json",
+            data: JSON.stringify(data), 
+            success: function(data) { 
+                var data_result = JSON.parse(data.result);
+                $('.search-result-content').html('')
+                $('.search-result-content').append(drawingSearchList(data_result))
+            }
+        })
+    }
+})
+
+function searchData() {
+    var search = $(".search-item").val().trim()
+    var data = { "search": search }
     $.ajax ({
         type: 'post',
-        url: "{{url_for('patent.reg_search_action')}}",
-        datatype: 'text',
+        url: "{{url_for('patent.word_search_action')}}",
+        datatype: 'text',   
         contentType: "application/json",
         data: JSON.stringify(data), 
         success: function(data) { 
             var data_result = JSON.parse(data.result);
-            console.log(">> " + data_result)
+            $(".search-item").val('') 
+
+            $('.result-header-title').html('')
+            $('.result-header-title').append("<span class='strong'>\"" + search + "\"</span>" + "로 검색한 검색결과")
+
+            $('.contents-sector-item').parent().children('button').removeClass('on');  
+            $('.contents-sector-item').eq(0).addClass('on');
+
             $('.search-result-content').html('')
             $('.search-result-content').append(drawingSearchList(data_result))
         }
     })
-})
+};
 
 function drawingSearchList(data_result) {
 	var addTag = "";
 	$.each(data_result, function(index, data){
-        var patentData = data.split('||')
+        var patentData = String(data).split('||')
 		addTag += "<div class='search-result-one'>"
    			+ "<img src=\'" + patentData[14] + "\' class='search-result-img' onclick=\"moveUrl('" + patentData[13] + "\')\">"
             + "<div class='search-result-right-align'>"
    			+ "<div class='search-result-title'><span class='applicationNumber'>" + patentData[6] + "</span>" + patentData[2] + "</div>"
-            + "<div class='search-result-summary'>" + patentData[12] + "</div>"
+            + "<div class='search-result-content'>" + patentData[12] + "</div>"
             + "<div class='search-result-etc1'>"
             + "<div class='search-result-applicantName'><span class='bold'>출원인: </span>" + patentData[15] + "</div>"
             + "<div class='search-result-date'><span class='bold'>출원일자: <span>" + patentData[7] + "</div>"

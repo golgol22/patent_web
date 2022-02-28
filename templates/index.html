@@ -33,11 +33,9 @@
                             <!-- Everything 검색어 순위 -->
                             <div class="common-search-ranking graph">
                                 <div class="graph-title">검색어 순위</div>
-                                <div class="graph-content"><span class="strong">1</span> 검색</div>
-                                <div class="graph-content"><span class="strong">2</span> 검색</div>
-                                <div class="graph-content"><span class="strong">3</span> 검색</div>
-                                <div class="graph-content"><span class="strong">4</span> 검색</div>
-                                <div class="graph-content"><span class="strong">5</span> 검색</div>
+                                {% for i, search in res_search %}
+                                    <div class="graph-content"><span class="strong">{{i+1}}</span> {{search.word}}</div>
+                                {% endfor%}
                             </div>
                             <!-- 분야별 특허 출원 순위 -->
                             <div class="common-field-ranking graph">

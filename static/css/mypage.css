@@ -242,6 +242,7 @@ select::-ms-expand {
 
 .search-result-one {
     display: flex;
+    height: 100%;
     border: 1px solid #bbb;
     border-radius: 10px;
     padding: 10px 20px 10px 20px;
@@ -267,11 +268,10 @@ select::-ms-expand {
     text-align: left;
 }
 
-.search-result-summary {
+.search-result-content {
     color: grey;
     font-size: 12pt;
     word-break: break-all;
-    margin-bottom: 20px;
     text-align: left;
 }
 
@@ -283,9 +283,7 @@ select::-ms-expand {
 
 .search-result-etc1 {
     display: flex;
-    position: absolute;
-    bottom: 5px;
-    left: 0;
+    margin-top: 15px;
 }
 
 .search-result-reporter, .search-result-date {

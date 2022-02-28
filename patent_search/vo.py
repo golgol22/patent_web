@@ -1,5 +1,10 @@
 from member.vo import db
 
+# 검색어 순위
+class Search(db.Model):
+    word = db.Column(db.String(50), primary_key=True)
+    count = db.Column(db.Integer, nullable=False)
+
 # 회원의 관심 분야 저장
 class Field(db.Model):
     user = db.Column(db.String(50), db.ForeignKey('member.id', ondelete='CASCADE'), primary_key=True)

@@ -14,8 +14,10 @@ import routes.patent_route as pr
 from patent_search.service import SearchService
 from patent_search.vo import Field
 from patent_search.service import DBService as field_DB_service
-field_DB_service = field_DB_service()
+from patent_search.service import SearchRankingDB as SearchRankingDB
 
+field_DB_service = field_DB_service()
+SearchRankingDB = SearchRankingDB()
 
 import config   # 컨피그 파일(config.py) import
 
@@ -47,6 +49,8 @@ def root():
     date = datetime.today().strftime("%Y년 %m월 %d일")  
     
     # 검색 키워드 순위
+    res_search = SearchRankingDB.getByTop5()
+    res_search = enumerate(res_search)
     
     # 년도별 분야별 특허 출원수 그래프 그리기
     year_ipc_patent = pd.read_csv('static/csv/year_ipc_patent.csv', index_col=0, encoding='euc-kr')
@@ -101,7 +105,7 @@ def root():
             # fav_analysis = pd.read_csv(filepath + 'fav_analysis.csv', encoding='euc-kr') 
             
     
-    return render_template('index.html', fav_field=fav_field, date=date, year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
+    return render_template('index.html', res_search=res_search, fav_field=fav_field, date=date, year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
             res_2017=res_2017, res_2018=res_2018, res_2019=res_2019, res_2020=res_2020, res_2021=res_2021) # 변수명 자동 생성으로 인한 경고
 
 

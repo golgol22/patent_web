@@ -5,7 +5,7 @@ from member.service import Service
 
 from patent_search.service import DBService as field_DB_service
 
-from patent_search.service import FavPatentDBSservice as patent_DB_service
+from patent_search.service import FavPatentDBService as patent_DB_service
 
 from patent_office.vo import Office
 from patent_office.service import Service as office_service
