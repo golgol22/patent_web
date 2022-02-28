@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: 0ab4ef576ae6
+Revision ID: 819476dc0312
 Revises: 
-Create Date: 2022-02-28 19:31:48.173955
+Create Date: 2022-02-28 20:20:55.942113
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '0ab4ef576ae6'
+revision = '819476dc0312'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,6 +33,12 @@ def upgrade():
     op.create_table('field',
     sa.Column('user', sa.String(length=50), nullable=False),
     sa.Column('field_name', sa.String(length=20), nullable=False),
+    sa.ForeignKeyConstraint(['user'], ['member.id'], ondelete='CASCADE'),
+    sa.PrimaryKeyConstraint('user')
+    )
+    op.create_table('my_cal',
+    sa.Column('user', sa.String(length=50), nullable=False),
+    sa.Column('date', sa.String(length=20), nullable=False),
     sa.ForeignKeyConstraint(['user'], ['member.id'], ondelete='CASCADE'),
     sa.PrimaryKeyConstraint('user')
     )
@@ -88,6 +94,7 @@ def downgrade():
     op.drop_table('patentDB')
     op.drop_table('officeDB')
     op.drop_table('newsDB')
+    op.drop_table('my_cal')
     op.drop_table('field')
     op.drop_table('search')
     op.drop_table('member')

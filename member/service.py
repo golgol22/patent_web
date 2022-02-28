@@ -1,5 +1,5 @@
 from flask import session
-from member.vo import Member, db
+from member.vo import Member, db, MyCal
 
 class Service:
     def join(self, m:Member): # 회원가입
@@ -40,3 +40,18 @@ class Service:
         db.session.commit()
         self.logout()
         
+class AddCal:
+    def add(self, date):
+        user = session['login_id']
+        cal = MyCal(user=user, date=date)
+        db.session.add(cal)
+        db.session.commit()
+    
+    def getById(self):
+        user = session['login_id']
+        return MyCal.query.get(user)
+    
+    def edit(self, newdate):
+        c = self.getById()
+        c.date = newdate
+        db.session.commit()      
