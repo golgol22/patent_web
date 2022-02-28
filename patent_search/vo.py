@@ -4,6 +4,27 @@ from member.vo import db
 class Field(db.Model):
     user = db.Column(db.String(50), db.ForeignKey('member.id', ondelete='CASCADE'), primary_key=True)
     field_name = db.Column(db.String(20), nullable=False)
+
+# 회원의 특허 검색 결과 저장
+class PatentDB(db.Model):
+    num = db.Column(db.Integer, primary_key=True)  
+    user = db.Column(db.String(50), db.ForeignKey('member.id', ondelete='CASCADE'))
+    indexNo = db.Column(db.String(100), nullable=False)
+    registerStatus = db.Column(db.String(100), nullable=False)
+    inventionTitle = db.Column(db.String(100), nullable=False)
+    ipcNumber = db.Column(db.String(100), nullable=False)
+    registerNumber = db.Column(db.String(100), nullable=False)
+    registerDate = db.Column(db.String(100), nullable=False)
+    applicationNumber = db.Column(db.String(100), nullable=False)
+    applicationDate = db.Column(db.String(100), nullable=False)
+    openNumber = db.Column(db.String(100), nullable=False)
+    openDate = db.Column(db.String(100), nullable=False)
+    publicationNumber = db.Column(db.String(100), nullable=False)
+    publicationDate = db.Column(db.String(100), nullable=False)
+    astrtCont = db.Column(db.String(1000), nullable=False)
+    bigDrawing = db.Column(db.String(100), nullable=False)
+    drawing = db.Column(db.String(100), nullable=False)
+    applicantName = db.Column(db.String(100), nullable=False)
     
 class WordSearch:
     
@@ -29,20 +50,20 @@ class WordSearch:
         
     def __str__(self):
         s = ''
-        s += str(self.indexNo) + '|'
-        s += str(self.registerStatus) + '|'
-        s += str(self.inventionTitle) + '|'
-        s += str(self.ipcNumber) + '|'
-        s += str(self.registerNumber) + '|'
-        s += str(self.registerDate) + '|'
-        s += str(self.applicationNumber) + '|'
-        s += str(self.applicationDate) + '|'
-        s += str(self.openNumber) + '|'
-        s += str(self.openDate) + '|'
-        s += str(self.publicationNumber) + '|'
-        s += str(self.publicationDate) + '|'
-        s += str(self.astrtCont) + '|'
-        s += str(self.bigDrawing) + '|'
-        s += str(self.drawing) + '|'
+        s += str(self.indexNo) + '||'
+        s += str(self.registerStatus) + '||'
+        s += str(self.inventionTitle) + '||'
+        s += str(self.ipcNumber) + '||'
+        s += str(self.registerNumber) + '||'
+        s += str(self.registerDate) + '||'
+        s += str(self.applicationNumber) + '||'
+        s += str(self.applicationDate) + '||'
+        s += str(self.openNumber) + '||'
+        s += str(self.openDate) + '||'
+        s += str(self.publicationNumber) + '||'
+        s += str(self.publicationDate) + '||'
+        s += str(self.astrtCont) + '||'
+        s += str(self.bigDrawing) + '||'
+        s += str(self.drawing) + '||'
         s += str(self.applicantName) 
         return s

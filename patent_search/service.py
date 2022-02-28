@@ -2,11 +2,12 @@ from flask import session
 import requests
 from bs4 import BeautifulSoup
 from member.vo import db
-from patent_search.vo import WordSearch, Field
+from patent_search.vo import WordSearch, Field, PatentDB
 from konlpy.tag import Okt
 from collections import Counter
 
-class DBService: # field 테이블에 저장, 검색
+# field 테이블(관심분야)에 저장, 검색
+class DBService: 
     def add(self, f_name):
         user = session['login_id']
         f = Field(user=user, field_name=f_name)
@@ -24,8 +25,21 @@ class DBService: # field 테이블에 저장, 검색
         f.field_name = f_name
         db.session.commit()
     
+# PatentDB 테이블(짐한 특허)에 저장, 검색
 class FavPatentDBSservice():
-    pass
+    def add(self, p:WordSearch):
+        id = session['login_id']
+        ndb = PatentDB(user=id, indexNo=p.indexNo, registerStatus=p.registerStatus, 
+            inventionTitle=p.inventionTitle, ipcNumber=p.ipcNumber, registerNumber=p.registerNumber, 
+            registerDate=p.registerDate, applicationNumber=p.applicationNumber, applicationDate=p.applicationDate, 
+            openNumber=p.openNumber, openDate=p.openDate, publicationNumber=p.publicationNumber, publicationDate=p.publicationDate,
+            astrtCont=p.astrtCont, bigDrawing=p.bigDrawing, drawing=p.drawing, applicantName=p.applicantName)
+        db.session.add(ndb)
+        db.session.commit()
+    
+    def getById(self):
+        user = session['login_id']
+        return PatentDB.query.filter(PatentDB.user==user).all()
     
     
 class SearchService:

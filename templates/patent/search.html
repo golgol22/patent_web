@@ -41,7 +41,7 @@
                     <div class="search-result-content">
                         {% for index, covid in res_covid %}
                         <div class="search-result-one">
-                            <img src="{{covid[14]}}" class="search-result-img" onerror="this.src='/static/images/404.png" onclick="moveUrl('{{covid[13]}}')">
+                            <img src="{{covid[14]}}" class="search-result-img" onclick="moveUrl('{{covid[13]}}')">
                             <div class="search-result-right-align">
                                 <div class="search-result-title"><span class="applicationNumber">{{covid[6]}}</span> {{covid[2]}}</div>
                                 <div class="search-result-summary">{{covid[12]}}</div>
@@ -50,7 +50,7 @@
                                     <div class="search-result-date"><span class="bold">출원일자: </span> {{covid[7]}}</div>
                                 </div>
                                 <div class="search-result-fav-button">
-                                    <button class="fav-patent" onclick="fav_add({{index}}, '{{covid}}');"><i class="fa fa-heart"> 찜하기</i></button>
+                                    <button class="fav-patent" onclick="fav_add({{index}}, {{covid}});"><i class="fa fa-heart"> 찜하기</i></button>
                                 </div>
                             </div>
                         </div>
@@ -89,9 +89,9 @@ $(document).on("click", ".contents-sector-item", function(){
 function drawingSearchList(data_result) {
 	var addTag = "";
 	$.each(data_result, function(index, data){
-        var patentData = data.split('|')
+        var patentData = data.split('||')
 		addTag += "<div class='search-result-one'>"
-   			+ "<img src=\'" + patentData[14] + "\' class='search-result-img' onerror='this.src=\'/static/images/404.png\'' onclick=\"moveUrl('" + patentData[13] + "\')\">"
+   			+ "<img src=\'" + patentData[14] + "\' class='search-result-img' onclick=\"moveUrl('" + patentData[13] + "\')\">"
             + "<div class='search-result-right-align'>"
    			+ "<div class='search-result-title'><span class='applicationNumber'>" + patentData[6] + "</span>" + patentData[2] + "</div>"
             + "<div class='search-result-summary'>" + patentData[12] + "</div>"

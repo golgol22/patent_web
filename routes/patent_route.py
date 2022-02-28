@@ -45,7 +45,6 @@ def reg_search_action():
     print(res_covid)
     res = []
     for covid in res_covid:
-        print(covid[6], covid[7], covid[8], covid[9], covid[10], covid[11], covid[12])
         res.append(WordSearch(covid[0], covid[1], covid[2], covid[3], covid[4], covid[5], 
             covid[6], covid[7], covid[8], covid[9], covid[10], covid[11], covid[12], 
             covid[13], covid[14], covid[15]))
@@ -64,8 +63,7 @@ def word_search_action():
 def fav_add_patent():
     data = json.loads(request.data)
     data =  data.get('data')
-    data = str(data)
-    split_data = data.split('|')
+    split_data = list(data)
     favPatentDBSservice.add(WordSearch(split_data[0], split_data[1], split_data[2], split_data[3], 
         split_data[4], split_data[5], split_data[6], split_data[7], split_data[8], split_data[9], split_data[10],
         split_data[11], split_data[12], split_data[13], split_data[14], split_data[15]))
