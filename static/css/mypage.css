@@ -192,6 +192,28 @@ select::-ms-expand {
     font-weight: bold;
 }
 
+/* 짐한 특허 */
+.applicationNumber {
+	font-size: 10pt;
+	border: 1px solid #bbb;
+	border-radius: 5px;
+	padding: 5px;
+	color: #de3e5d;
+	margin-right: 10px;
+	position: relative;
+	top: -3px;
+}
+
+.search-result-applicantName, .search-result-date {
+    font-size: 15px;
+    color: grey;
+}
+
+.bold {
+	font-weight: bolder;
+}
+
+
 /* 찜한 사무소 목록 */
 #table {
     display: grid;  
@@ -234,7 +256,6 @@ select::-ms-expand {
 
 .search-result-right-align {
     width: 100%;
-    height: 150px;
     position: relative;
 }
 

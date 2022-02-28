@@ -151,7 +151,21 @@
                         </div>
                         <!-- 찜한 특허 -->
                         <div class="content fav-patent-content">
-
+                            <div class="search-result-content">
+                                {% for p in res_patent %}
+                                <div class="search-result-one">
+                                    <img src="{{p.drawing}}" class="search-result-img" onclick="moveUrl('{{p.bigDrawing}}')">
+                                    <div class="search-result-right-align">
+                                        <div class="search-result-title"><span class="applicationNumber">{{p.applicationNumber}}</span> {{p.inventionTitle}}</div>
+                                        <div class="search-result-summary">{{p.astrtCont}}</div>
+                                        <div class="search-result-etc1">
+                                            <div class="search-result-applicantName"><span class="bold">출원인: <span> {{p.applicantName}}</div>
+                                            <div class="search-result-date"><span class="bold">출원일자: </span> {{p.applicationDate}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
                         </div>
                         <!-- 찜한 사무소 -->
                         <div class="content fav-office-content">

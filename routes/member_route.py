@@ -2,6 +2,11 @@ from flask import request, render_template, redirect, Blueprint, session, json, 
 from datetime import datetime
 from member.vo import Member
 from member.service import Service
+
+from patent_search.service import DBService as field_DB_service
+
+from patent_search.service import FavPatentDBSservice as patent_DB_service
+
 from patent_office.vo import Office
 from patent_office.service import Service as office_service
 from patent_office.service import DBService as office_DB_service
@@ -10,13 +15,12 @@ from patent_news.vo import News
 from patent_news.service import Service as news_service
 from patent_news.service import DBService as news_DB_service
 
-from patent_search.service import DBService as field_DB_service
-
 service = Service() # Member
 
+field_DB_service = field_DB_service()
+patent_DB_service = patent_DB_service()
 office_DB_service = office_DB_service()
 news_DB_service = news_DB_service()
-field_DB_service = field_DB_service()
 
 
 bp = Blueprint('member', __name__, url_prefix='/member')
@@ -73,6 +77,9 @@ def mypage():
     # 관심분야 등록
     f = field_DB_service.getById()
     
+    # 찜한 특허 
+    res_patent = patent_DB_service.getById()
+    
     # 찜한 사무소
     res_office = office_DB_service.getById()
     
@@ -84,7 +91,7 @@ def mypage():
     
     # 회원정보
     m:Member = service.myInfo()
-    return render_template('member/mypage.html', f=f, res_office=res_office, res_news=res_news, date=date, m=m)
+    return render_template('member/mypage.html', f=f, res_patent=res_patent, res_office=res_office, res_news=res_news, date=date, m=m)
 
 @bp.route('/user_fav_field', methods=['POST'])
 def user_fav_field():
