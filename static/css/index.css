@@ -92,6 +92,7 @@ body {
     margin: 0 15px;
 }
 
+
 /* 각각 */
 .common-top {
     display: flex;
@@ -120,6 +121,102 @@ body {
     height: 500px;
 }
 
+/* -- 관심분야 -- */
+/* 관심분야 최근 특허 */
+hr {
+    margin-top: 30px;  
+}
 
+.fav-top {
+    margin-top: 30px;
+}
 
+.contents-subtitle {
+    font-size: 18pt;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin: 20px 12px;
+}
 
+.strong {
+    font-weight: bolder;
+    color: #de3e5d;
+    margin: 0 15px;
+}
+
+.bold {
+	font-weight: bolder;
+}
+
+.search-result-content {
+    margin: 10px;
+    /* padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 10px; */
+}
+
+.search-result-one {
+    display: flex;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 3px 3px #eee;
+    padding: 10px 20px 10px 20px;
+    margin-bottom: 15px;
+    background: #fff;
+}
+
+.search-result-img {
+    width: 180px;
+    height: 150px;
+    margin: 0 30px 0 0;
+}
+
+.search-result-right-align {
+    width: 100%;
+    position: relative;
+}
+
+.applicationNumber {
+	font-size: 10pt;
+	border: 1px solid #bbb;
+	border-radius: 5px;
+	padding: 5px;
+	color: #de3e5d;
+	margin-right: 10px;
+	position: relative;
+	top: -3px;
+}
+
+.search-result-title {
+    font-weight: bolder;
+    font-size: 16pt;
+    margin: 10px 10px 10px 0;
+    line-height: 30px;
+}
+
+.search-result-summary {
+    color: grey;
+    font-size: 12pt;
+    word-break: break-all;
+    margin-bottom: 20px;
+}
+
+.search-result-etc-align {
+    display: flex;
+    position: relative;
+    height: 100%;
+}
+
+.search-result-etc1 {
+    display: flex;
+	margin-top: 10px;
+}
+
+.search-result-applicantName, .search-result-date {
+    font-size: 15px;
+    color: grey;
+}
+
+.search-result-applicantName {
+    margin-right: 20px;
+}

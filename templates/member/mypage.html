@@ -280,7 +280,8 @@ $('.field-reg-btn').click(function () {
             data: JSON.stringify(data), 
             success: function (data) {
                 if (data.result == 1) {
-                    $('.field-setting-text').text(selected + '로 관심분야가 설정되었습니다.')
+                    $('.field-setting-text').html('')
+                    $('.field-setting-text').append("<span class='strong'>" + selected + "</span> 로 관심분야가 설정되었습니다.")
                 }
             }
         })

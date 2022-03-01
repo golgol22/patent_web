@@ -88,10 +88,51 @@
                         </div>
                     </div>
                 </div>
+                {% if session.flag and fav_field != None %}
+                    <hr>
+                    <div class="fav-top full">
+                        <div class="contents-header">
+                            <div class="contents-titles">
+                                <div class="contents-title">관심분야</div>
+                            </div>
+                        </div>
 
-                <div class="fav-top full">
-                    <div></div>
-                </div>
+                        <div class="contents-subtitle">관심분야 최근 등록된 특허</div>
+                        <div class="search-result-content">
+                            {% for patent in res_lately_patent_R %}
+                            <div class="search-result-one">
+                                <img src="{{patent.drawing}}" class="search-result-img" onclick="moveUrl('{{patent.bigDrawing}}')">
+                                <div class="search-result-right-align">
+                                    <div class="search-result-title"><span class="applicationNumber">{{patent.applicationNumber}}</span> {{patent.inventionTitle}}</div>
+                                    <div class="search-result-summary">{{patent.astrtCont}}</div>
+                                    <div class="search-result-etc1">
+                                        <div class="search-result-applicantName"><span class="bold">출원인: <span> {{patent.applicantName}}</div>
+                                        <div class="search-result-date"><span class="bold">출원일자: </span> {{patent.applicationDate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        
+                        <div class="contents-subtitle">관심분야 권리포기된 최근 특허</div>
+                        <div class="search-result-content">
+                            {% for patent in res_lately_patent_G %}
+                            <div class="search-result-one">
+                                <img src="{{patent.drawing}}" class="search-result-img" onclick="moveUrl('{{patent.bigDrawing}}')">
+                                <div class="search-result-right-align">
+                                    <div class="search-result-title"><span class="applicationNumber">{{patent.applicationNumber}}</span> {{patent.inventionTitle}}</div>
+                                    <div class="search-result-summary">{{patent.astrtCont}}</div>
+                                    <div class="search-result-etc1">
+                                        <div class="search-result-applicantName"><span class="bold">출원인: <span> {{patent.applicantName}}</div>
+                                        <div class="search-result-date"><span class="bold">출원일자: </span> {{patent.applicationDate}}</div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+
+                    </div>
+                {% endif %}
 
             </div>
         </div>

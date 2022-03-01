@@ -8,6 +8,7 @@ from collections import Counter
 class SearchService:
     def __init__(self):
         self.key = 'ooRP9Oq6WkfYDhiOcE/YjBxb91I5spT1hpEJPl01lMQ='
+        # self.key = 'rDGgnnnzWtRgBF=3u8QCT/zqY9cbh85jqukOfpXn8Pg='
 
     # 일반 검색
     def getWordSearch(self, word=None, year=-1, patent=None, utility=None, numOfRows=0, pageNo=0):
