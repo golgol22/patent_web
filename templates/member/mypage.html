@@ -19,7 +19,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chance/1.0.13/chance.min.js"></script>
 
     <title>마이페이지</title>
-    <script>
+    <script type="text/javascript" class="code-js">
         $(function() {     
             var Calendar = tui.Calendar;
             var $calEl = $('#calendar').tuiCalendar({
@@ -32,7 +32,7 @@
                 }
             }); 
             calendarInstance = $calEl.data('tuiCalendar');
-        })
+        }) 
     </script>
 </head>
 <body>
@@ -194,22 +194,23 @@
                                     <button class="add-cal-btn">출원일 등록</button>
                                 </div>
                             </div>
-
-                            <div id="menu">
-                                <div id="menu-navi">
-                                    <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
-                                    <button type="button" class="btn btn-default btn-sm move-day prevBtn" data-action="move-prev">
-                                        <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
-                                    </button>
-                                    <button type="button" class="btn btn-default btn-sm move-day nextBtn" data-action="move-next">
-                                        <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
-                                    </button>
-                                    <span id="renderRange" class="render-range">{{date_month}}</span>
+                            <div class="cal-all">
+                                <div id="menu">
+                                    <div id="menu-navi">
+                                        <button type="button" class="btn btn-default btn-sm move-today" data-action="move-today">Today</button>
+                                        <button type="button" class="btn btn-default btn-sm move-day prevBtn" data-action="move-prev">
+                                            <i class="calendar-icon ic-arrow-line-left" data-action="move-prev"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-default btn-sm move-day nextBtn" data-action="move-next">
+                                            <i class="calendar-icon ic-arrow-line-right" data-action="move-next"></i>
+                                        </button>
+                                        <span id="renderRange" class="render-range">{{date_month}}</span>
+                                    </div>
                                 </div>
+                                <div id="calendar"></div>
+                                
+                                <div class="warning-text"><span class="strong">*보편적인 일정일뿐 실제 출원일정과 차이가 있을 수 있습니다. 일정을 개인에 맞게 수정해보세요.</span></div>
                             </div>
-                            <div id="calendar"></div>
-                            
-                            <div class="warning-text"><span class="strong">*보편적인 일정일뿐 실제 출원일정과 차이가 있을 수 있습니다. 일정을 개인에 맞게 수정해보세요.</span></div>
                         </div>
                         <!-- 회원 정보 수정  -->
                         <div class="content user-content">
@@ -269,9 +270,9 @@ $('.field-reg-btn').click(function () {
 
 // 출원 일정 관리 
 $('.add-cal-btn').click(function () {
-    var date = $('.start-date').val()
-    console.log(date)
-    var data = { "data": date }
+    var application_date = $('.start-date').val()
+    var data = { "data": application_date }
+
     $.ajax({
         type: 'post',
         url: "{{url_for('member.add_application_date')}}",
@@ -281,57 +282,94 @@ $('.add-cal-btn').click(function () {
         success: function (data) {
             if (data.result == 1) {
                 alert("출원일이 등록되었습니다.")
+                $('.cal-all').css('display', 'block')
+                
+                // 날짜 계산
+                var year = String(application_date).substr(0, 4);
+                var month = parseInt(String(application_date).substr(5, 7)) - 1;
+                var day = String(application_date).substr(8, 10)
+                let date = new Date(year, month, day);
+
+                var date_method_start = new Date(date)
+                var date_method_end = new Date(date)
+                var date_first_start = new Date(date)
+                var date_first_end = new Date(date)
+                var date_general_end = new Date(date)
+
+                date_method_start.setDate(date.getDate() + 1);
+                date_method_end.setDate(date_method_start.getDate() + 7);
+                date_first_start.setDate(date_method_end.getDate() + 1);
+                console.log(date_first_start.toISOString())
+                date_first_end.setMonth(date_first_start.getMonth() + 3);
+                date_general_end.setMonth(date_first_start.getMonth() + 6);
+                
                 calendarInstance.createSchedules([
                     {
-                    id: '1',
-                    calendarId: 'Major Subject',
-                    title: '자료구조론',
-                    category: 'time',              // 일반 일정
-                    start: '2022-03-18T10:00:00',
-                    end: '2022-03-18T11:00:00'
+                        id: '1',
+                        calendarId: 'application',
+                        title: '출원일',
+                        category: 'time',  
+                        start: application_date,
+                        end: application_date
                     },
                     {
-                    id: '2',
-                    calendarId: 'Elective Subject',
-                    title: '웹 프로그래밍',
-                    category: 'time',
-                    start: '2022-03-18T14:00:00',
-                    end: '2022-03-18T15:00:00'
+                        id: '2',
+                        calendarId: 'method',
+                        title: '방식심사',
+                        category: 'time',
+                        start: date_method_start.toISOString(),
+                        end: date_method_end.toISOString()
                     },
                     {
-                    id: '3',
-                    calendarId: 'General Subject',
-                    title: '영양과 건강',
-                    category: 'time',
-                    start: '2022-03-18T13:00:00',
-                    end: '2022-03-18T14:00:00'
+                        id: '3',
+                        calendarId: 'first',
+                        title: '우선심사',
+                        category: 'time',
+                        start: date_first_start.toISOString(),
+                        end: date_first_end.toISOString()
+                    },
+                    {
+                        id: '4',
+                        calendarId: 'general',
+                        title: '일반심사',
+                        category: 'time',
+                        start: date_first_start.toISOString(),
+                        end: date_general_end.toISOString()
                     }
                 ]);
         
                 calendarInstance.setCalendars([
                     {
-                        id: 'Major Subject',
-                        name: '전공 필수',
+                        id: 'application',
+                        name: '출원일',
                         color: '#ffffff',
                         bgColor: '#ff5583',
                         dragBgColor: '#ff5583',
                         borderColor: '#ff5583'
                     },
                     {
-                        id: 'Elective Subject',
-                        name: '전공 선택',
+                        id: 'method',
+                        name: '방식심사',
                         color: '#ffffff',
                         bgColor: '#ffbb3b',
                         dragBgColor: '#ffbb3b',
                         borderColor: '#ffbb3b'
                     },
                     {
-                        id: 'General Subject',
-                        name: '일반 교양',
+                        id: 'first',
+                        name: '우선심사',
                         color: '#ffffff',
                         bgColor: '#03bd9e',
                         dragBgColor: '#03bd9e',
                         borderColor: '#03bd9e'
+                    },
+                    {
+                        id: 'general',
+                        name: '일반심사',
+                        color: '#ffffff',
+                        bgColor: '#de3e5d',
+                        dragBgColor: '#de3e5d',
+                        borderColor: '#de3e5d'
                     }
                 ]);
             }
@@ -356,42 +394,6 @@ $('.nextBtn').click(function () {
     var fullMonth = ('0' + String(month + 1)).slice(-2);
     $('.render-range').text(String(year) + '.' + fullMonth)
 });
-  
-// 스케줄 생성
-$('.add-cal-btn').click(function () {
-    calendarInstance.createSchedules([
-        {
-            id: '1',
-            calendarId: '1',
-            title: 'my schedule',
-            category: 'time',
-            dueDateClass: '',
-            start: '2018-01-18T22:30:00+09:00',
-            end: '2018-01-19T02:30:00+09:00'
-        },
-        {
-            id: '2',
-            calendarId: '1',
-            title: 'second schedule',
-            category: 'time',
-            dueDateClass: '',
-            start: '2018-01-18T17:30:00+09:00',
-            end: '2018-01-19T17:31:00+09:00',
-        }
-    ]);
-}); 
-
-// 스케줄 수정 
-/* var startTime = '2022-01-18T17:30:00+09:00'
-var endTime = '2022-01-22T17:30:00+09:00'
-
-calendarInstance.updateSchedule('1', '1', {
-    start: startTime,
-    end: endTime
-}); */
-
-// 스케줄 삭제
-// calendarInstance.deleteSchedule('1', '1');
 
 //개인 정보 수정 
 $('#btn_update').click(function () {

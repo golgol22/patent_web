@@ -79,7 +79,9 @@ def root():
         globals()[f'res_{year}'] = enumerate(globals()[f'res_{year}'])
                
     # 로그인이 되어있고 관심분야가 등록되어 있으면 관심분야에 대한 분석도 제공
-    res_lately_patent = []
+    res_lately_patent_R = []
+    res_lately_patent_G = []
+    
     filepath = 'static/csv/'
     fav_field = Field()
     if session['flag']:

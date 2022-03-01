@@ -75,8 +75,21 @@ class SaveFile:
             columns=['일련번호', '등록상태', '발명의 명칭', 'IPC 번호', '등록번호', '등록일자', '출원번호', '출원일자', '공개번호', '공개일자', '공고번호', '공고일자', '초록', '큰 이미지 경로', '이미지 경로', '출원인'])
         data.to_csv('static/csv/search_result_covid.csv', index=False, encoding='utf-8')  
 
+    def search_detail_classification_G(self): # 물리(G)
+        ipcs = ['G01', 'G02', 'G03'] # 물리 상세 분야 
+        total_data = []
+        for ipc in ipcs:
+            res_patent, numOfRows, pageNo, totalCount = self.service.getAdvancedSearch(ipcNumber=ipc, numOfRows=10)
+            print(ipc + "분야의 특허 출원수: " + str(totalCount))
+            total_data.append(totalCount)
+            
+        data = pd.DataFrame(total_data, 
+            columns=['생활(A)', '운송(B)', '화학(C)', '섬유(D)', '구조(E)', '기계(F)', '물리(G)', '전기(H)']) # 상세분야 
+        data.to_csv('static/csv/year_ipc_detail_patent_G.csv', index='년도', encoding='euc-kr')
+
 if __name__ == "__main__": 
     sf = SaveFile()
     # sf.year_ipc_patent()
     # sf.year_keyword()
-    sf.search_result_covid()
+    # sf.search_result_covid()
+    sf.search_detail_classification_G()

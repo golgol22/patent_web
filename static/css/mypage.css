@@ -85,6 +85,10 @@ div.myPageLeftMenu {
     display: block;
 }
 
+.invisible {
+    display: none;
+}
+
 .strong {
     font-weight: bolder;
     color: #de3e5d;
@@ -192,6 +196,7 @@ select::-ms-expand {
     font-weight: bold;
 }
 
+
 /* 짐한 특허 */
 .applicationNumber {
 	font-size: 10pt;
@@ -212,7 +217,6 @@ select::-ms-expand {
 .bold {
 	font-weight: bolder;
 }
-
 
 /* 찜한 사무소 목록 */
 #table {
@@ -335,6 +339,10 @@ select::-ms-expand {
     color: #fff;
 }
 
+.cal-all {
+    display: none;
+}
+
 #menu {
     position: relative;
     top: 50px;
@@ -399,7 +407,7 @@ select::-ms-expand {
 
 #p-warning {
     text-align: left;
-    color: red;
+    color: #de3e5d;
     line-height: 25px;
     font-weight: bold;
 }
