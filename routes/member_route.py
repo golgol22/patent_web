@@ -1,7 +1,7 @@
 from flask import request, render_template, redirect, Blueprint, session, json, jsonify
 from datetime import datetime
-from member.vo import Member
-from member.service import Service
+from member.vo import Member, MyCal
+from member.service import Service, AddCal
 
 from patent_search.service import DBService as field_DB_service
 
@@ -21,7 +21,7 @@ field_DB_service = field_DB_service()
 patent_DB_service = patent_DB_service()
 office_DB_service = office_DB_service()
 news_DB_service = news_DB_service()
-
+addCal = AddCal()
 
 bp = Blueprint('member', __name__, url_prefix='/member')
 
@@ -88,10 +88,15 @@ def mypage():
     
     # 오늘 날짜 구하기 
     date = datetime.today().strftime("%Y년 %m월 %d일")  
+    date_month = datetime.today().strftime("%Y.%m")
+    
+    # 출원일 구하기
+    application_date = addCal.getById()
     
     # 회원정보
     m:Member = service.myInfo()
-    return render_template('member/mypage.html', f=f, res_patent=res_patent, res_office=res_office, res_news=res_news, date=date, m=m)
+    return render_template('member/mypage.html', f=f, res_patent=res_patent, res_office=res_office, res_news=res_news, 
+        date=date, date_month=date_month, application_date=application_date, m=m)
 
 @bp.route('/user_fav_field', methods=['POST'])
 def user_fav_field():
@@ -102,6 +107,17 @@ def user_fav_field():
         field_DB_service.add(f_name)
     else:
         field_DB_service.edit(f_name)
+    return jsonify(result=1)
+
+@bp.route('/add_application_date', methods=['POST'])
+def add_application_date():
+    data = json.loads(request.data)
+    date =  data.get('data')
+    f = addCal.getById()
+    if f == None: 
+        addCal.add(date)
+    else:
+        addCal.edit(date)
     return jsonify(result=1)
 
 @bp.route('/user_info_update', methods=['POST'])

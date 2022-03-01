@@ -39,14 +39,13 @@ app.register_blueprint(pr.bp)
 db.init_app(app)
 migrate.init_app(app, db)
 
-    
 @app.route('/')
 def root():
     if 'flag' not in session.keys():
         session['flag'] = False
    
     # 오늘 날짜 구하기 
-    date = datetime.today().strftime("%Y년 %m월 %d일")  
+    date = datetime.today().strftime("%Y년 %m월 %d일")    
     
     # 검색 키워드 순위
     res_search = SearchRankingDB.getByTop5()
@@ -116,7 +115,8 @@ def root():
             res_lately_patent_G, numOfRows, pageNo, totalCount = search_service.getAdvancedSearch(ipcNumber=ipcNumber, lastvalue='G', sortSpec='AD', descSort='true', numOfRows=3)
     
     # 변수명 자동 생성으로 인한 경고
-    return render_template('index.html', res_search=res_search, fav_field=fav_field, date=date, year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
+    return render_template('index.html', res_search=res_search, fav_field=fav_field, date=date,
+            year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
             res_2017=res_2017, res_2018=res_2018, res_2019=res_2019, res_2020=res_2020, res_2021=res_2021,
             res_lately_patent_R=res_lately_patent_R, res_lately_patent_G=res_lately_patent_G)
 

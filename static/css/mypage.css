@@ -335,10 +335,14 @@ select::-ms-expand {
     color: #fff;
 }
 
-
 #menu {
     position: relative;
-    top: 100px;
+    top: 50px;
+}
+
+#menu-navi {
+    left: 0px;
+    position: absolute;
 }
 
 #calendar {
@@ -351,6 +355,20 @@ select::-ms-expand {
     margin-top: 120px;
     font-size: 10pt;
     text-align: left;
+}
+
+#menu-navi > button {
+    background: #fff;
+    border-radius: 15px;
+    border: 1px solid #ccc;
+    padding: 8px;
+}
+
+.render-range {
+    font-size: 20px;
+    margin-left: 10px;
+    position: relative;
+    top: 4px;
 }
 
 
