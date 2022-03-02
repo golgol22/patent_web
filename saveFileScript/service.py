@@ -242,7 +242,7 @@ class SearchService:
         term = str(year) + '0101~' + str(year) + '1231'
         
         for pn in range(0, 10): 
-            res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, ipcNumber='G', pageNo=pn, numOfRows=500)
+            res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, ipcNumber='H', pageNo=pn, numOfRows=500)
         
             print(str(year) + '년 총 개수: ' + str(totalCounts))
             print(str(year) + '년 페이지 번호: ' + str(pn))

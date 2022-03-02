@@ -2,7 +2,7 @@ import pandas as pd
 from vo import WordSearch
 from service import SearchService
 
-
+# 데이터 csv 파일로 저장하는 스크립트 파일
 class SaveFile:
     
     def __init__(self): 
@@ -59,7 +59,7 @@ class SaveFile:
         print(total_data)
         data = pd.DataFrame(total_data, 
                 columns=['년도', '단어', '빈도수'])
-        data.to_csv('static/csv/year_detail_keyword.csv', index=False, encoding='euc-kr')    
+        data.to_csv('static/csv/H/year_detail_keyword.csv', index=False, encoding='euc-kr')    
 
 
     def search_result_covid(self):

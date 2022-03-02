@@ -112,16 +112,19 @@ def root():
                 filepath = filepath + 'H/'
                 ipcNumber = 'H'
                 
-            # fav_analysis = pd.read_csv(filepath + 'fav_analysis.csv', encoding='euc-kr') 
             res_lately_patent_R, numOfRows, pageNo, totalCount = search_service.getAdvancedSearch(ipcNumber=ipcNumber, lastvalue='R', sortSpec='AD', descSort='true', numOfRows=3)
             res_lately_patent_G, numOfRows, pageNo, totalCount = search_service.getAdvancedSearch(ipcNumber=ipcNumber, lastvalue='G', sortSpec='AD', descSort='true', numOfRows=3)
     
     # 년도별 주요 키워드
     years = [2017, 2018, 2019, 2020, 2021]
-    year_detail_keyword = pd.read_csv('static/csv/year_detail_keyword.csv', encoding='euc-kr')
     for year in years:
-        globals()[f'res_detail_{year}'] = year_detail_keyword[year_detail_keyword['년도'] == year].values.tolist()
-        globals()[f'res_detail_{year}'] = enumerate(globals()[f'res_detail_{year}'])
+        globals()[f'res_detail_{year}'] = []
+        
+    if fav_field != None:
+        year_detail_keyword = pd.read_csv(filepath + 'year_detail_keyword.csv', encoding='euc-kr')
+        for year in years:
+            globals()[f'res_detail_{year}'] = year_detail_keyword[year_detail_keyword['년도'] == year].values.tolist()
+            globals()[f'res_detail_{year}'] = enumerate(globals()[f'res_detail_{year}'])
     
     # 변수명 자동 생성으로 인한 경고
     return render_template('index.html', res_search=res_search, fav_field=fav_field, date=date,
