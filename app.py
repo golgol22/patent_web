@@ -116,11 +116,19 @@ def root():
             res_lately_patent_R, numOfRows, pageNo, totalCount = search_service.getAdvancedSearch(ipcNumber=ipcNumber, lastvalue='R', sortSpec='AD', descSort='true', numOfRows=3)
             res_lately_patent_G, numOfRows, pageNo, totalCount = search_service.getAdvancedSearch(ipcNumber=ipcNumber, lastvalue='G', sortSpec='AD', descSort='true', numOfRows=3)
     
+    # 년도별 주요 키워드
+    years = [2017, 2018, 2019, 2020, 2021]
+    year_detail_keyword = pd.read_csv('static/csv/year_detail_keyword.csv', encoding='euc-kr')
+    for year in years:
+        globals()[f'res_detail_{year}'] = year_detail_keyword[year_detail_keyword['년도'] == year].values.tolist()
+        globals()[f'res_detail_{year}'] = enumerate(globals()[f'res_detail_{year}'])
+    
     # 변수명 자동 생성으로 인한 경고
     return render_template('index.html', res_search=res_search, fav_field=fav_field, date=date,
             year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
             res_2017=res_2017, res_2018=res_2018, res_2019=res_2019, res_2020=res_2020, res_2021=res_2021,
-            res_lately_patent_R=res_lately_patent_R, res_lately_patent_G=res_lately_patent_G)
+            res_detail_2017=res_detail_2017, res_detail_2018=res_detail_2018, res_detail_2019=res_detail_2019, res_detail_2020=res_detail_2020, res_detail_2021=res_detail_2021,
+            res_lately_patent_R=res_lately_patent_R, res_lately_patent_G=res_lately_patent_G, field_name=fav_field.field_name)
 
 
 if __name__ == "__main__": 

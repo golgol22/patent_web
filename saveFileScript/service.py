@@ -235,6 +235,38 @@ class SearchService:
         tags = counts.most_common(10)
         return tags
         
+    # 상세 분야의 년도별(최근 5개년)가장 많이 등장한 키워드 
+    def getYearDetailKeywordSearch(self, year):
+        res = []
+        inventionTitle = '' 
+        term = str(year) + '0101~' + str(year) + '1231'
+        
+        for pn in range(0, 10): 
+            res, numOfRows, pageNo, totalCounts = self.getAdvancedSearch(applicationDate=term, ipcNumber='G', pageNo=pn, numOfRows=500)
+        
+            print(str(year) + '년 총 개수: ' + str(totalCounts))
+            print(str(year) + '년 페이지 번호: ' + str(pn))
+            print(str(year) + '년 불러온 행의 개수: ' + str(len(res)))
+        
+            for r in res:
+                inventionTitle +=  ' / ' + str(r.inventionTitle)
+            
+        okt = Okt()
+        sentence_tag = []
+        sentence_tag = okt.pos(inventionTitle)
+        words = ['기기', '검사', '저장', '인식', '매체', '기록', '동작', '구동', '측정', '시스템', '서비스', '정보', '제공', '기초', '기반', '관리',  '표시', '연결', 
+                 '형성', '기능', '구조', '장치', '구비', '이용', '방지', '조절', '제조', '보조', 
+                 '포함', '모듈', '용기', '방법', '제어', '기구', '사용', '기용', '조성', '이의', '조립', '처리']
+
+        noun_adj_list = []
+        for word, tag in sentence_tag:
+            if tag in ['Noun'] and len(word) != 1 and word not in words: 
+                noun_adj_list.append(word)
+
+        counts = Counter(noun_adj_list)
+        tags = counts.most_common(10)
+        return tags
+        
     
  
 
