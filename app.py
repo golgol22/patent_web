@@ -83,7 +83,7 @@ def root():
     res_lately_patent_G = []
     
     filepath = 'static/csv/'
-    fav_field = Field()
+    fav_field = None
     if session['flag']:
         fav_field =  field_DB_service.getById()
         if fav_field != None:
@@ -128,7 +128,7 @@ def root():
             year_ipc_ranking_data=year_ipc_ranking_data, img_path=img_path,
             res_2017=res_2017, res_2018=res_2018, res_2019=res_2019, res_2020=res_2020, res_2021=res_2021,
             res_detail_2017=res_detail_2017, res_detail_2018=res_detail_2018, res_detail_2019=res_detail_2019, res_detail_2020=res_detail_2020, res_detail_2021=res_detail_2021,
-            res_lately_patent_R=res_lately_patent_R, res_lately_patent_G=res_lately_patent_G, field_name=fav_field.field_name)
+            res_lately_patent_R=res_lately_patent_R, res_lately_patent_G=res_lately_patent_G, field_name=fav_field)
 
 
 if __name__ == "__main__": 
